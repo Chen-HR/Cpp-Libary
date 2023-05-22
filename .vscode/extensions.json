@@ -1,0 +1,166 @@
+{// Extension identifier
+  "recommendations": 
+    [
+      // System Language
+        "ms-ceintl.vscode-language-pack-zh-hant",
+      // Program Language
+        "formulahendry.code-runner",
+        // Intellicode
+          "visualstudioexptteam.vscodeintellicode",
+          "SonarSource.sonarlint-vscode", 
+        // Tasks Management
+          "spmeesseman.vscode-taskexplorer", 
+        // Project
+          "alefragnani.project-manager", 
+      // Tools
+        // Translation
+          "caiqichang.vscode-translation", 
+          "hancel.google-translate",
+          "benshabatnoam.google-translate-ext",
+          "funkyremi.vscode-google-translate",
+          "intellsmi.comment-translate",
+        // GitHub
+          "GitHub.vscode-pull-request-github",
+          "GitHub.codespaces", 
+          "GitHub.remotehub",
+          "henriqueBruno.github-repository-manager",
+        // Multiplayer Development
+          "ms-vsliveshare.vsliveshare",
+        // Remote
+          "ms-vscode.remote-explorer", 
+          "ms-vscode.remote-repositories", 
+          "ms-vscode.remote-server", 
+          "ms-vscode-remote.vscode-remote-extensionpack", 
+          // Remote-Containers
+            "ms-vscode-remote.remote-containers",
+          // Remote-SSH
+            "ms-vscode-remote.remote-ssh",
+            "ms-vscode-remote.remote-ssh-edit",
+          // Remote-WSL
+            "ms-vscode-remote.remote-wsl",
+            "ms-vscode-remote.remote-wsl-recommender", 
+        // Containers
+          // Azure
+            "ms-vscode.vscode-node-azure-pack", 
+            "ms-vscode.azure-account",
+            "ms-azuretools.vscode-azureappservice",
+            "ms-azuretools.vscode-azureresourcegroups",
+            "ms-azuretools.vscode-docker",
+          // AWS
+        // AI Tool
+          // Chat GPT
+            "gencay.vscode-chatgpt",
+        // API Client Tester
+          "rangav.vscode-thunder-client",
+        // Code Screenshots
+          "JeffersonLicet.snipped", 
+          "pnp.polacode", 
+        // pdf-Reader
+          "tomoki1207.pdf",
+        // Renderer
+          "RandomFractalsInc.vscode-data-table", 
+          "GrapeCity.gc-excelviewer", 
+        // 3D-Object
+          "slevesque.vscode-3dviewer",
+          "ML.nc-gcode",
+        // Mindmap
+          "Souche.vscode-mindmap",
+          "formulahendry.vscode-node-red",
+        // MP3
+          "sukumo28.wav-preview",
+      // Assembler
+        "maziac.asm-code-lens",
+      // Batch
+        // Reference
+          "bmuskalla.vscode-tldr", 
+        // Snippets
+          "bat-snippets.bat-snippets", 
+        // Execute
+          "NilsSoderman.batch-runner", 
+      // C/Cpp https://code.visualstudio.com/docs/cpp/introvideos-cpp
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-themes",
+        //"mitaki28.vscode-clang",
+        "jeff-hykin.better-cpp-syntax",
+        "llvm-vs-code-extensions.vscode-clangd", 
+        "franneck94.vscode-c-cpp-config", 
+        "vadimcn.vscode-lldb", 
+        // Documentation
+          "cschlosser.doxdocgen",
+        // Build Tool
+          "ms-vscode.makefile-tools", 
+          "twxs.cmake",
+          "ms-vscode.cmake-tools",
+        // Reference
+          "Guyutongxue.cpp-reference",
+        // File Linker
+          "zishuzy.cpp-include-complete",
+          "ajshort.include-autocomplete", 
+        // Snippets
+          "dreamy-xay.dreamy-cpp",
+          "agauniyal.cpp-snippets",
+          "wlhe.c-cpp-snippets", 
+      // Java
+        "redhat.java",
+        "vscjava.vscode-java-debug",
+        "vscjava.vscode-java-test",
+        "vscjava.vscode-maven",
+        "vscjava.vscode-java-dependency",
+      // Python
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        // Documentation
+          "njpwerner.autodocstring", 
+        // Django
+          "batisteo.vscode-django", 
+      // Go
+        "golang.Go",
+      // Powershell
+        "ms-vscode.powershell",
+        // Debug
+        "TylerLeonhardt.vscode-inline-values-powershell",
+        // Snippets
+        "vin-liberty.powershell-snippets", 
+      // PHP
+        "bmewburn.vscode-intelephense-client", 
+        "xdebug.php-pack",
+        "devsense.phptools-vscode", 
+        "brapifra.phpserver", 
+      // Html-CSS
+        // WebServer
+        "ms-vscode.live-server", 
+        "ritwickdey.LiveServer",
+        "yuichinukiyama.vscode-preview-server",
+        // 
+          "codemooseus.vscode-devtools-for-chrome",
+        // Intellisense
+          "ecmel.vscode-html-css", 
+        // Snippets
+          "joy-yu.css-snippets",
+      // JavaScript
+        "dbaeumer.vscode-eslint",
+      // XML
+        "redhat.vscode-xml",
+      // JSON
+      // YAML
+        "redhat.vscode-yaml",
+      // SQL
+        "ms-mssql.mssql",
+        "mtxr.sqltools",
+      // MarkDown
+        //"HackMD.vscode-hackmd",
+        "yzhang.markdown-all-in-one", 
+        "DavidAnson.vscode-markdownlint", 
+        "foam.foam-vscode",
+      // Arduino
+        "vsciot-vscode.vscode-arduino",
+        "ronaldosena.arduino-snippets",
+      // IOT Platform
+        "platformio.platformio-ide",
+    ],
+  "unwantedRecommendations": 
+    [
+    ]
+}

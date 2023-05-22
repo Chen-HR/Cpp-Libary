@@ -1,0 +1,83 @@
+{
+    "configurations": [
+        {
+            "name": "MSVC",
+            "includePath": [
+                "${workspaceFolder}",
+                "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.34.31933/include/"
+            ],
+            "compilerPath": "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.34.31933/bin/Hostx64/x64/cl.exe",
+            "intelliSenseMode": "windows-msvc-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.34.31933/include/"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        },
+        {
+            "name": "GCC",
+            "includePath": [
+                "${workspaceFolder}",
+                "C:/ProgramFiles/mingw/include/",
+                "C:/ProgramFiles/mingw/lib/gcc/mingw32/9.2.0/include/"
+            ],
+            "compilerPath": "C:/ProgramFiles/mingw/bin/gcc.exe",
+            "intelliSenseMode": "windows-gcc-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "C:/ProgramFiles/mingw/include",
+                    "C:/ProgramFiles/mingw/lib/gcc/mingw32/9.2.0/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        },
+        {
+            "name": "G++",
+            "includePath": [
+                "${workspaceFolder}",
+                "C:/ProgramFiles/mingw/include/",
+                "C:/ProgramFiles/mingw/lib/gcc/mingw32/9.2.0/include/",
+                "C:/ProgramFiles/mingw/lib/gcc/mingw32/9.2.0/include/c++/"
+            ],
+            "compilerPath": "C:/ProgramFiles/mingw/bin/g++.exe",
+            "intelliSenseMode": "windows-gcc-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "C:/ProgramFiles/mingw/include",
+                    "C:/ProgramFiles/mingw/lib/gcc/mingw32/9.2.0/include",
+                    "C:/ProgramFiles/mingw/lib/gcc/mingw32/9.2.0/include/c++"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        },
+        {
+            "name": "LLVM",
+            "includePath": [
+                "${workspaceFolder}",
+                "C:/ProgramFiles/LLVM/include/clang-c",
+                "C:/ProgramFiles/LLVM/include/llvm-c",
+                "C:/ProgramFiles/LLVM/lib/clang/14.0.6/include"
+            ],
+            "compilerPath": "C:/ProgramFiles/mingw/bin/gcc.exe",
+            "intelliSenseMode": "windows-clang-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "C:/ProgramFiles/LLVM/include/clang-c",
+                    "C:/ProgramFiles/LLVM/include/llvm-c",
+                    "C:/ProgramFiles/LLVM/lib/clang/14.0.6/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        }
+    ],
+    "version": 4
+}
