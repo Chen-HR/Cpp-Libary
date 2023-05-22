@@ -1,1 +1,3 @@
-.vscode
+.vscode/
+.gitignore
+VisualStudioCode-WorkSpace-Config-Cloner.ps1
