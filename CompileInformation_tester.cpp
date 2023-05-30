@@ -4,7 +4,6 @@
 
 int main(int argc, char const *argv[])
   {
-    CompileInformation(std::cout);
-    std::cout
+    CompileInformation_OutStream(std::cout);
     return 0;
   }
