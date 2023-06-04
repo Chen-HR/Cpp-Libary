@@ -3,7 +3,7 @@
 
 int main()
   {
-    shell.execute("ver");
+    shell.execute("g++ --version");
     cmd.execute("ver");
     powershell.execute("$PSVersionTable ; Write-Host \"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\" ; hostname ;");
   }
