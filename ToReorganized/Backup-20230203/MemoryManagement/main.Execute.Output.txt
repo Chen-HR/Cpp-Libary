@@ -1,0 +1,104 @@
+
+
+Input System Memory Size: 1048576
+Input System Memory Frame Size: 4096
+Input Number of Process: 5
+  Infomation of Process[0]: 
+    Input Process Name: p0
+    Input Process Memory Size: 10240
+      Process's Memory Paging Number: 3
+      Process's Memory Paging Size:   4096
+      Page  : [  0,   1,   2,   3] 
+      Frame : [243, 199,  66,    ] 
+      Volid : [  1,   1,   1,   0] 
+  Infomation of Process[1]: 
+    Input Process Name: p1
+    Input Process Memory Size: 30720
+      Process's Memory Paging Number: 8
+      Process's Memory Paging Size:   4096
+      Page  : [  0,   1,   2,   3,   4,   5,   6,   7,   8] 
+      Frame : [220, 229,  52,    ,    ,    ,    ,    ,    ] 
+      Volid : [  1,   1,   1,   0,   0,   0,   0,   0,   0] 
+  Infomation of Process[2]: 
+    Input Process Name: p2
+    Input Process Memory Size: 51200
+      Process's Memory Paging Number: 13
+      Process's Memory Paging Size:   4096
+      Page  : [  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13] 
+      Frame : [125, 236,  66,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ] 
+      Volid : [  1,   1,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0] 
+  Infomation of Process[3]: 
+    Input Process Name: p3
+    Input Process Memory Size: 71680
+      Process's Memory Paging Number: 18
+      Process's Memory Paging Size:   4096
+      Page  : [  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18] 
+      Frame : [ 51, 205,  95,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ] 
+      Volid : [  1,   1,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0] 
+  Infomation of Process[4]: 
+    Input Process Name: p4
+    Input Process Memory Size: 92160
+      Process's Memory Paging Number: 23
+      Process's Memory Paging Size:   4096
+      Page  : [  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23] 
+      Frame : [ 98,   8,  32,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ] 
+      Volid : [  1,   1,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0] 
+Enter itinerary and Virtual Address: p0 886
+  Infomation of Process[0]: 
+    Input Process Name: p0
+    Input Process Memory Size: 10240
+      Process's Memory Paging Number: 3
+      Process's Memory Paging Size:   4096
+      Page  : [  0,   1,   2,   3] 
+      Frame : [243, 199,  66,    ] 
+      Volid : [  1,   1,   1,   0] 
+  Page: floor(886/4096) = 0
+  Physical Address: (243*4096)+(10240%4096) = 997376
+Enter itinerary and Virtual Address: p1 13299
+  Infomation of Process[1]: 
+    Input Process Name: p1
+    Input Process Memory Size: 30720
+      Process's Memory Paging Number: 8
+      Process's Memory Paging Size:   4096
+      Page  : [  0,   1,   2,   3,   4,   5,   6,   7,   8] 
+      Frame : [220, 229,  52, 188,    ,    ,    ,    ,    ] 
+      Volid : [  1,   1,   1,   0,   0,   0,   0,   0,   0] 
+  Page: floor(13299/4096) = 3
+  Physical Address: (188*4096)+(13299%4096) = 771059
+Enter itinerary and Virtual Address: p2 22354
+  Infomation of Process[2]: 
+    Input Process Name: p2
+    Input Process Memory Size: 51200
+      Process's Memory Paging Number: 13
+      Process's Memory Paging Size:   4096
+      Page  : [  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13] 
+      Frame : [125, 236,  66,    ,    , 221,    ,    ,    ,    ,    ,    ,    ,    ] 
+      Volid : [  1,   1,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0] 
+  Page: floor(22356/4096) = 5
+  Physical Address: (221*4096)+(22356%4096) = 907092
+Enter itinerary and Virtual Address: p3 46858
+  Infomation of Process[3]: 
+    Input Process Name: p3
+    Input Process Memory Size: 71680
+      Process's Memory Paging Number: 18
+      Process's Memory Paging Size:   4096
+      Page  : [  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18] 
+      Frame : [ 51, 205,  95,    ,    ,    ,    ,    ,    ,    ,    , 207,    ,    ,    ,    ,    ,    ,    ] 
+      Volid : [  1,   1,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0] 
+  Page: floor(46858/4096) = 11
+  Physical Address: (207*4096)+(46858%4096) = 849674
+Enter itinerary and Virtual Address: p4 81127
+  Infomation of Process[4]: 
+    Input Process Name: p4
+    Input Process Memory Size: 92160
+      Process's Memory Paging Number: 23
+      Process's Memory Paging Size:   4096
+      Page  : [  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23] 
+      Frame : [ 98,   8,  32,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    ,    , 202,    ,    ,    ,    ] 
+      Volid : [  1,   1,   1,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0] 
+  Page: floor(81127/4096) = 19
+  Physical Address: (202*4096)+(81127%4096) = 830695
+Enter itinerary and Virtual Address: ^C
+
+
+

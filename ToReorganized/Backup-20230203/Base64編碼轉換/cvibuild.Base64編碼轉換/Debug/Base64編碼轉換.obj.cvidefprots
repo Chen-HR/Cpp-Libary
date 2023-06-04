@@ -1,0 +1,35 @@
+[WinMain]
+Class="Function"
+Prototype="int WinMain(struct HINSTANCE__ *hInstance, struct HINSTANCE__ *hPrevInstance, char *lpszCmdLine, int nCmdShow);"
+SourceLocation="d:\SchoolFile\電子電路自動化通論\Base64編碼轉換\Base64編碼轉換.c:7:15"
+
+[Command_Quit]
+Class="Function"
+Prototype="int Command_Quit(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
+SourceLocation="d:\SchoolFile\電子電路自動化通論\Base64編碼轉換\Base64編碼轉換.c:19:17"
+
+[Set_PanelControl]
+Class="Function"
+Prototype="void Set_PanelControl(int Panel, int ControlPlainTextUnitListChar[], int ControlPlainTextUnitListCode[], int ControlCiperTextUnitListChar[], int ControlCiperTextUnitListCode[], char *PlainUnit_Char, char *CiperUnit_Char, char *CiperUnit_Code, char *PlainText, char *CiperText);"
+SourceLocation="d:\SchoolFile\電子電路自動化通論\Base64編碼轉換\Base64編碼轉換.c:39:6"
+
+[Encode_Unit]
+Class="Function"
+Prototype="int Encode_Unit(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
+SourceLocation="d:\SchoolFile\電子電路自動化通論\Base64編碼轉換\Base64編碼轉換.c:91:17"
+
+[Decode_Unit]
+Class="Function"
+Prototype="int Decode_Unit(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
+SourceLocation="d:\SchoolFile\電子電路自動化通論\Base64編碼轉換\Base64編碼轉換.c:118:17"
+
+[Encode_All]
+Class="Function"
+Prototype="int Encode_All(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
+SourceLocation="d:\SchoolFile\電子電路自動化通論\Base64編碼轉換\Base64編碼轉換.c:146:17"
+
+[Decode_All]
+Class="Function"
+Prototype="int Decode_All(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
+SourceLocation="d:\SchoolFile\電子電路自動化通論\Base64編碼轉換\Base64編碼轉換.c:173:17"
+

@@ -1,6 +1,6 @@
 // #include <algorithm>
 #include "Random.hpp"
-#include "Log.hpp"
+// #include "Log.hpp"
 
 #define for_index(count) for(int index = 0; index < count; index++)
 

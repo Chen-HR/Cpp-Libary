@@ -1,0 +1,9 @@
+#define PointerTargetData(Pointer) (*(Pointer))
+#define PointerTargetPath(Pointer) ( (Pointer))
+#define PointerItselfData(Pointer) ( (Pointer))
+#define PointerItselfPath(Pointer) (&(Pointer))
+
+#define PTD PointerTargetData
+#define PTP PointerTargetPath
+#define PID PointerItselfData
+#define PIP PointerItselfPath

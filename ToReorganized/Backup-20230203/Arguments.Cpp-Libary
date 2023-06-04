@@ -1,0 +1,75 @@
+// Finish Date : 2021 0204
+// Version : 01.00
+namespace CStdArg
+  {
+    #include <stdarg.h>
+    // Data Type
+    typedef va_list ArgumentPointer;
+    // Method.Argument-Start
+    #define ArgumentStart(ArgumentPointer,FirstArgument)  va_start(ArgumentPointer,FirstArgument)
+    // Method.Argument-Next
+    //#define ArgumentNext(ArgumentPointer,Type)            (*(Type*)(((ArgumentPointer)+=sizeof(char*))-sizeof(char*)))
+    #define ArgumentNext(ArgumentPointer,Type)            (*(Type*)(((ArgumentPointer)+=sizeof(Type))-sizeof(Type)))
+    // Method.Argument-End
+    #define ArgumentEnd(ArgumentPointer)                  (ArgumentPointer)=(Argument)(0)
+  }
+
+// Finish Date : 2021 0206
+// Version : 01.00
+namespace Argument
+  {
+    #define Set_Argument(ArgumentList,Argument1) (decltype(Argument1)* ArgumentList = &Argument1)
+    #define Get_Argument(ArgumentList,Index,Type) (*((Type*)(*(ArgumentList+Index))))
+    // Set ArgumentList Start in Argument1(Pointer).
+    void Set(void**& ArgumentList,void*& Argument1)
+      {
+        ArgumentList = &Argument1;
+      }
+    // Get ArgumentList DataPath on Index
+    template <class Index> void* GetPath(void**& ArgumentList,Index index)
+      {
+        return (*(ArgumentList+index));
+      }
+    // Get ArgumentList Data on Index ,and Read as Type of TargetObject.
+    template <class Index,class Type> Type GetValue(void**& ArgumentList,Index index,Type TargetObject)
+      {
+        //return (*((Type*)(*(ArgumentList+index))));
+        return (*((decltype(TargetObject)*)(*(ArgumentList+index))));
+      }
+    // Suggest Type of Target-Argument is Pointer ( Sizeof(Pointer) == 8 )
+    class Argument
+      {
+        private:
+        protected:
+        public:
+          void** ArgumentList;
+          Argument()
+            {this->ArgumentList = 0;}
+          Argument(Argument& Another)
+            {this->ArgumentList = Another.ArgumentList;}
+          Argument(const Argument& Another)
+            {this->ArgumentList = Another.ArgumentList;}
+          template <class Type> Argument(Type& Argument)
+            {this->ArgumentList = &Argument;}
+          ~Argument()
+            {this->ArgumentList = 0;}
+          void Set(void*& Argument1)
+            {this->ArgumentList = &Argument1;}
+          void Set(Argument& Another)
+            {this->ArgumentList = Another.ArgumentList;}
+          void Set(const Argument& Another)
+            {this->ArgumentList = Another.ArgumentList;}
+          // GetPath ArgumentList DataPath on Index
+          // void* Path = ArgumentList.GetPath(Index);
+          template <class Index> void* GetPath(Index index)
+            {return (*(this->ArgumentList+index));}
+          // GetValue ArgumentList Data on Index ,and Read as Type of TargetObject.
+          // ReturnType Data = ArgumentList.GetValue<IndexType,ReturnType>(Index);
+          template <class Index,class ReturnType> ReturnType GetValue(Index index)
+            {return (*((ReturnType*)(*(this->ArgumentList+index))));}
+          // GetValue ArgumentList Data on Index ,and Read as Type of TargetObject.
+          // ReturnType Data = ArgumentList.GetValue(Index,Data=0);
+          template <class Index,class ReturnType> ReturnType GetValue(Index index,ReturnType TargetObject)
+            {return (*((decltype(TargetObject)*)(*(this->ArgumentList+index))));}
+      };
+  }

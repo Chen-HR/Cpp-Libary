@@ -1,0 +1,134 @@
+// Finish Date : 2021 0204
+// Version : 01.00
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include "Arguments.Cpp-Libary"
+#include "String.Cpp-Libary"
+#include "StandardIO-Formatter.Cpp-Libary"
+static unsigned short int ModeLength=4;
+class Stream_StandardIO
+  {
+    private:
+    protected:
+      typedef FILE* StreamTarget;
+      StreamTarget Target;
+      char* Mode = (char*)(calloc(ModeLength,sizeof(char)));
+    public:
+      Stream_StandardIO()
+        {
+          *(this->Mode) = *((char*)("out"));
+          this->Target=stdout;
+        }
+      Stream_StandardIO(Stream_StandardIO& Another)
+        {
+          *(this->Mode) = *(Another.Mode);
+          this->Target=Another.Target;
+        }
+      Stream_StandardIO(const Stream_StandardIO& Another)
+        {
+          *(this->Mode) = *(Another.Mode);
+          this->Target=Another.Target;
+        }
+      Stream_StandardIO(StreamTarget _Target)
+        {
+          this->Target=_Target;
+        }
+      template <class FilePathType,class FileModeType> Stream_StandardIO(FilePathType FilePath,FileModeType FileMode)
+        {
+          *(this->Mode) = *((char*)(FileMode));
+          this->Target=fopen(FilePath,FileMode);
+        }
+      ~Stream_StandardIO()
+        {
+          free(this->Mode);
+          fflush(this->Target);
+          fclose(this->Target);
+          free(this->Target);
+        }
+      // Cell By Path (Pointer) >> Cell By Value
+      void PrintFormat(const char* Format,...)
+        {
+          try
+            {
+              if (StandardIO::Formatter::ArgumentsNumber(Format)==0)
+                {
+                  fprintf(Target,Format);
+                }
+              if (StandardIO::Formatter::ArgumentsNumber(Format)!=0)
+                {
+                  Argument::Argument ArgumentList(Format);
+                  long long int ArgumentIndex=0;
+                  long long int FormatPosition=0;
+                  while ((0<=FormatPosition)&&(FormatPosition<String::Get_Length(Format)))
+                    {
+                      if (FormatPosition!=StandardIO::Formatter::FirstFormatterPosition(Format,FormatPosition))
+                        {
+                          const char* Text = String::SubString<const char*,const char*>(Format,FormatPosition,(StandardIO::Formatter::FirstFormatterPosition(Format,FormatPosition)-FormatPosition));
+                          //std::cout << Text << std::endl;
+                          fprintf(Target,Text);
+                          FormatPosition+=(StandardIO::Formatter::FirstFormatterPosition(Format,FormatPosition)-FormatPosition);
+                        }
+                      if (FormatPosition==StandardIO::Formatter::FirstFormatterPosition(Format,FormatPosition))
+                        {
+                          const char* Text = String::SubString<const char*,const char*>(Format,FormatPosition,(StandardIO::Formatter::FormatterLength(Format,FormatPosition)+1));
+                          const char  Type = StandardIO::Formatter::FormatterType(Format,FormatPosition,(StandardIO::Formatter::FormatterLength(Format,FormatPosition)+1));
+                          if (Type=='I') {int    *Argument=0;Argument=(ArgumentList.GetValue(ArgumentIndex,Argument));fprintf(Target,Text,*Argument);}
+                          if (Type=='F') {double *Argument=0;Argument=(ArgumentList.GetValue(ArgumentIndex,Argument));fprintf(Target,Text,*Argument);}
+                          if (Type=='C') {char   *Argument=0;Argument=(ArgumentList.GetValue(ArgumentIndex,Argument));fprintf(Target,Text,*Argument);}
+                          if (Type=='S') {char*  *Argument=0;Argument=(ArgumentList.GetValue(ArgumentIndex,Argument));fprintf(Target,Text,*Argument);}
+                          if (Type=='O') {void*  *Argument=0;Argument=(ArgumentList.GetValue(ArgumentIndex,Argument));fprintf(Target,Text,*Argument);}
+                          //std::cout << Text << std::endl;
+                          FormatPosition+=StandardIO::Formatter::FormatterLength(Format,FormatPosition);
+                        }
+                    }
+                }
+            }
+          catch(...)
+            {
+            }
+        }
+      // Cell By Path (Pointer) >> Cell By Path (Pointer)
+      void ScanFormat(const char* Format,...)
+        {
+          try
+            {
+              if (StandardIO::Formatter::ArgumentsNumber(Format)==0)
+                {
+                  fscanf(Target,Format);
+                }
+              if (StandardIO::Formatter::ArgumentsNumber(Format)!=0)
+                {
+                  Argument::Argument ArgumentList(Format);
+                  long long int ArgumentIndex=0;
+                  long long int FormatPosition=0;
+                  while ((0<=FormatPosition)&&(FormatPosition<String::Get_Length(Format)))
+                    {
+                      if (FormatPosition!=StandardIO::Formatter::FirstFormatterPosition(Format,FormatPosition))
+                        {
+                          const char* Text = String::SubString<const char*,const char*>(Format,FormatPosition,(StandardIO::Formatter::FirstFormatterPosition(Format,FormatPosition)-FormatPosition));
+                          //std::cout << Text << std::endl;
+                          fscanf(Target,Text);
+                          FormatPosition+=(StandardIO::Formatter::FirstFormatterPosition(Format,FormatPosition)-FormatPosition);
+                        }
+                      if (FormatPosition==StandardIO::Formatter::FirstFormatterPosition(Format,FormatPosition))
+                        {
+                          const char* Text = String::SubString<const char*,const char*>(Format,FormatPosition,(StandardIO::Formatter::FormatterLength(Format,FormatPosition)+1));
+                          const char  Type = StandardIO::Formatter::FormatterType(Format,FormatPosition,(StandardIO::Formatter::FormatterLength(Format,FormatPosition)+1));
+                          if (Type=='I') {int    *Argument=0;*(Argument)=*(ArgumentList.GetValue(ArgumentIndex,Argument));fscanf(Target,Text,Argument);}
+                          if (Type=='F') {double *Argument=0;*(Argument)=*(ArgumentList.GetValue(ArgumentIndex,Argument));fscanf(Target,Text,Argument);}
+                          if (Type=='C') {char   *Argument=0;*(Argument)=*(ArgumentList.GetValue(ArgumentIndex,Argument));fscanf(Target,Text,Argument);}
+                          if (Type=='S') {char*   Argument=0;*(Argument)=*(ArgumentList.GetValue(ArgumentIndex,Argument));fscanf(Target,Text,Argument);}
+                          if (Type=='O') {void*  *Argument=0;*(Argument)=*(ArgumentList.GetValue(ArgumentIndex,Argument));fscanf(Target,Text,Argument);}
+                          //std::cout << Text << std::endl;
+                          FormatPosition+=StandardIO::Formatter::FormatterLength(Format,FormatPosition);
+                        }
+                    }
+                }
+            }
+          catch(...)
+            {
+            }
+        }
+  };

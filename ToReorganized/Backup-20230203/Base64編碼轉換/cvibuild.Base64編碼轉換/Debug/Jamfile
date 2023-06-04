@@ -1,0 +1,49 @@
+CCFLAGS = -g ;
+HDRS = 	"c:\\program files (x86)\\national instruments\\cvi2020\\toolslib\\activex\\word"
+	"c:\\program files (x86)\\national instruments\\cvi2020\\toolslib\\activex\\excel"
+	"c:\\program files (x86)\\national instruments\\cvi2020\\toolslib\\custctrl"
+	"c:\\program files (x86)\\national instruments\\cvi2020\\toolslib\\custctrl\\custsupp"
+	"c:\\program files (x86)\\national instruments\\cvi2020\\toolslib\\cvirtsup"
+	"c:\\program files (x86)\\national instruments\\cvi2020\\toolslib\\datasock"
+	"c:\\program files (x86)\\national instruments\\cvi2020\\toolslib\\daqUtil"
+	"c:\\program files (x86)\\national instruments\\cvi2020\\toolslib\\printing"
+	"c:\\program files (x86)\\national instruments\\cvi2020\\toolslib\\toolbox"
+	"c:\\program files (x86)\\national instruments\\cvi2020\\toolslib\\reportgen"
+	"c:\\program files (x86)\\national instruments\\cvi2020\\toolslib\\localui"
+	"c:\\program files (x86)\\national instruments\\cvi2020\\instr"
+	"C:\\Program Files (x86)\\National Instruments\\Shared\\CVI\\toolslib\\custctrl"
+	"C:\\Program Files (x86)\\National Instruments\\Shared\\CVI\\toolslib\\custctrl\\custsupp"
+	"C:\\Program Files (x86)\\National Instruments\\Shared\\CVI\\instr"
+	"C:\\ProgramData\\National Instruments\\CVI2020\\instr"
+	"c:\\program files (x86)\\national instruments\\cvi2020\\include"
+	"C:\\Program Files (x86)\\National Instruments\\Shared\\CVI\\include"
+	"C:\\ProgramData\\National Instruments\\CVI2020\\include"
+	"C:\\ProgramData\\National Instruments\\CVI\\include"
+	"c:\\program files (x86)\\national instruments\\cvi2020\\include\\ansi"
+	"c:\\program files (x86)\\national instruments\\cvi2020\\include\\clang\\3.3"
+	"c:\\Program Files\\IVI Foundation\\IVI\\Include"
+	"C:\\Program Files (x86)\\IVI Foundation\\VISA\\winnt\\include"
+	"C:\\Program Files (x86)\\National Instruments\\Shared\\MSDTRedistributables\\SDKHeaderFiles\\8.1"
+	"c:\\Program Files (x86)\\National Instruments\\CVI2020\\bin"
+	"c:\\Program Files (x86)\\National Instruments\\Shared\\CVI\\Bin"
+	;
+include Jamfile_instr ;
+LOCATE on "base64.h" = "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換" ;
+LOCATE on "base64_decode.h" = "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換" ;
+LOCATE on "base64_decode_unit.h" = "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換" ;
+LOCATE on "base64_encode.h" = "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換" ;
+LOCATE on "base64_encode_unit.h" = "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換" ;
+LOCATE on "Base64編碼轉換.c" = "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換" ;
+LOCATE on "Base64編碼轉換.h" = "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換" ;
+LOCATE on "bits.h" = "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換" ;
+Object "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\Base64編碼轉換.obj" : "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\Base64編碼轉換.c" ;
+FILENUM on "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\Base64編碼轉換.obj" = 1 ;
+DEFPROTS on "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\Base64編碼轉換.obj" = "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\Base64編碼轉換.obj.cvidefprots" ;
+OUTFILE on "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\Base64編碼轉換.obj" = "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\Base64編碼轉換.obj.out" ;
+PrjObjects += "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\Base64編碼轉換.obj" ;
+Object "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\resources.res" : "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\resources.in.rc" ;
+Depends "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\resources.res" : "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\manifest.xml" ;
+MainFromObjects "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\Base64編碼轉換.exe" : $(PrjObjects) $(InstrObjects) ;
+Depends "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\Base64編碼轉換.exe" : "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\link_options.txt" ;
+Depends "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\Base64編碼轉換.exe" : "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\resources.res" ;
+Depends all : "d:\\SchoolFile\\電子電路自動化通論\\Base64編碼轉換\\cvibuild.Base64編碼轉換\\Debug\\Base64編碼轉換.exe" ;

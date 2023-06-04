@@ -1,0 +1,96 @@
+//#define Testting
+#ifdef Testting
+  #include <time.h>
+  #include <iostream>
+#endif 
+//#include <iostream>
+namespace StandardIO
+  {
+    namespace Formatter
+      {
+        #include "String.Cpp-Libary"
+        // Format Character (Formatter Start Character)
+        static char* FormatCharacter=(char*)("%");
+        // Format Character Printer
+        static char* FormatCharacterPrinter=(char*)("%%");
+        // Formatter Specifier (Formatter End Character)
+        static char* FormatterSpecifier=(char*)("diouxXfeEgGaAcspn");
+        // Formatter Error Return Value
+        static long long int  FormatterError=-1;
+        // Return First Formatter Position
+        long long int FirstFormatterPosition(const char* Format,long long int StartPosition)
+          {
+            // Find '%'
+            while (String::Get_Position(Format,FormatCharacter,StartPosition)!=NotExistPosition)
+              {
+              // is Formatter 
+              if ((String::Get_Position(Format,FormatCharacter,StartPosition))!=(String::Get_Position(Format,FormatCharacterPrinter,StartPosition)))
+                return (String::Get_Position(Format,FormatCharacter,StartPosition));
+              // not Formatter
+              else
+                StartPosition=(String::Get_Position(Format,FormatCharacter,StartPosition)+2);
+              }
+            return NotExistPosition;
+          }
+        // Return Formatter Length
+        long long int FormatterLength(const char* Format,long long int FormatterPosition)
+          {
+            long long int FormatPosition=FormatterPosition;
+            long long int FormatterSpecifierPosition=0;
+            // Find Formatter Length
+            for (FormatterPosition=0;FormatPosition+FormatterPosition<String::Get_Length(Format);FormatterPosition++)
+              // Read Formatter Specifier
+              for (FormatterSpecifierPosition=0;FormatterSpecifierPosition<String::Get_Length(FormatterSpecifier);FormatterSpecifierPosition++)
+                // Finded Formatter Specifier
+                if ((Format+FormatPosition+FormatterPosition)[0]==(FormatterSpecifier+FormatterSpecifierPosition)[0])
+                  return FormatterPosition;
+            return FormatterError;
+          }
+        // Return Formatter Type 
+        char FormatterType(const char* Format,long long int FormatterPosition,long long int FormatterLength)
+          {
+            long long int FormatterSpecifierPosition=0;
+            // Read Formatter Specifier
+            for (FormatterSpecifierPosition=0;FormatterSpecifierPosition<String::Get_Length(FormatterSpecifier);FormatterSpecifierPosition++)
+              {
+                if (((Format+FormatterPosition+FormatterLength)[0])==((FormatterSpecifier+FormatterSpecifierPosition)[0]))
+                  {
+                    if (( 0<=FormatterSpecifierPosition)&&(FormatterSpecifierPosition< 6)) {return ('I');} // {return ((char*)("Integer       "));} // int    
+                    if (( 6<=FormatterSpecifierPosition)&&(FormatterSpecifierPosition<13)) {return ('F');} // {return ((char*)("Floating Point"));} // double 
+                    if ((13<=FormatterSpecifierPosition)&&(FormatterSpecifierPosition<14)) {return ('C');} // {return ((char*)("Character     "));} // char   
+                    if ((14<=FormatterSpecifierPosition)&&(FormatterSpecifierPosition<15)) {return ('S');} // {return ((char*)("String        "));} // char*  
+                    if ((15<=FormatterSpecifierPosition)&&(FormatterSpecifierPosition<17)) {return ('O');} // {return ((char*)("Other         "));} // void*  
+                  }
+              }
+            return ((char*)("Error         "));
+          }
+        // Return Arguments Number
+        long long int ArgumentsNumber(const char* Format)
+          {
+            long long int ArgumentsNumber=0;
+            long long int FormatPosition=0;
+            // Find Formatter
+            while (FirstFormatterPosition(Format,FormatPosition)!=NotExistPosition)
+              {
+                for (FormatPosition=FirstFormatterPosition(Format,FormatPosition);0<FormatterLength(Format,FormatPosition);FormatPosition++)
+                  if (((Format+FormatPosition)[0])=='*')
+                    ArgumentsNumber++;
+                ArgumentsNumber++;
+              }
+            return ArgumentsNumber;
+          }
+        // Function Testter
+        #ifdef Testting
+          int main()
+            {
+              const char *Format = "test test%% : %+*.*f";
+              std::cout << clock() << std::endl;
+              std::cout << "  " << Get_ArgumentsNumber(Format) << std::endl;
+              std::cout << clock() << std::endl;
+              std::cout << "  " << Get_FormatterType(Format,Get_FirstFormatterPosition(Format,0),Get_FormatterLength(Format,Get_FirstFormatterPosition(Format,0))) << std::endl;
+              std::cout << clock() << std::endl;
+              return 0;
+            }
+        #endif
+      }
+  }

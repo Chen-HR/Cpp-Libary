@@ -1,0 +1,30 @@
+//  Dynamic memory allocation:
+//    Method_1(<cstdlib>or<stdlib.h>):
+//      Create:
+//        DataType* Name = (DataType*) (malloc(Number*sizeof(DataType)));
+//      Damage:
+//        free(Name);
+//    Method_2(only C++ Built-in):
+//      Create:
+//        DataType* Name = new DataType[Number];
+//      Damage:
+//        delete [] Name;
+
+#include <stdlib.h>
+//#define C_MemoryCreate(Pointer,Type,Number)    Pointer=((Type*)(malloc(sizeof(Type)*(Number))))
+#define C_MemoryCreate(Pointer,Number)         Pointer=((decltype(Pointer))(std::malloc(sizeof(decltype(*(Pointer)))*(Number))))
+#define C_MemoryDelete(Pointer)                std::free(Pointer)
+
+//#define Cpp_MemoryCreate(Pointer,Type,Number)  Pointer=(new Type[Number])
+#define Cpp_MemoryCreate(Pointer,Number)       Pointer=(new (decltype((Pointer)))[Number])
+#define Cpp_MemoryDelete(Pointer)              delete [] Pointer
+
+#ifdef C_Language
+  #define MemoryCreate C_MemoryCreate
+  #define MemoryDelete C_MemoryDelete
+#endif
+
+#ifdef Cpp_Language
+  #define MemoryCreate Cpp_MemoryCreate
+  #define MemoryDelete Cpp_MemoryDelete
+#endif 

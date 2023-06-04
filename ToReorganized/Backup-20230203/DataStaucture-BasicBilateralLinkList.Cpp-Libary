@@ -1,0 +1,44 @@
+#include <stdlib.h>
+#include <iostream>
+//#include <iomanip>
+template <class DataType> struct BasicBilateralNode
+  {
+    BasicBilateralNode* Front=0;
+    BasicBilateralNode* Rear_=0;
+    DataType            Data =0;
+  };
+template <class NodeType> struct BilateralNodeLogger
+  {
+    NodeType* Begin=0;
+    NodeType* End__=0;
+  };
+template <class DataType,class IndexType> class BasicBilateralLinkList
+  {
+    private:
+    protected:
+    public:
+      struct BilateralNodeLogger <struct BasicBilateralNode <DataType>> NodeLogger;
+      //BasicBilateralLinkList();
+      BasicBilateralLinkList(BasicBilateralLinkList&);
+      ~BasicBilateralLinkList();
+      IndexType     GetIndex(struct Node*);
+      DataType      GetData (IndexType);
+      struct Node*  GetNode (IndexType);
+      void          SetData (IndexType,DataType);
+      void Creat_FromEmpty(DataType);
+      void AddInBegin     (DataType);
+      void AddInEnd       (DataType);
+      void Remove_ToClear ();
+      void RemoveBegin    ();
+      void RemoveEnd      ();
+      void Insert (IndexType,DataType);
+      void Remove (IndexType);
+      void Exchange (IndexType,IndexType);
+      void Clear (IndexType,IndexType);
+      void Copy  (BasicBilateralLinkList,IndexType,IndexType,IndexType);
+      BasicBilateralLinkList()
+        {
+          this->NodeLogger->Begin=0;
+          this->NodeLogger->End__=0;
+        }
+  };

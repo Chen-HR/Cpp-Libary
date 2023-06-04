@@ -1,0 +1,449 @@
+// Finish Date : 2021 0202
+// Version : 01.00
+
+#include <stdlib.h>
+
+#ifdef NotExistPosition
+  #undef NotExistPosition
+#endif
+#ifndef NotExistPosition
+  #define NotExistPosition -1
+#endif
+
+long long int _Basic_Get_Size     (char*);
+long long int _Basic_Get_Length   (char*);
+long long int _Basic_Get_Position (char*,char*,long long int);
+char* Set_Size       (long long int);
+char* Set_Length     (long long int);
+char* _Basic_Assign         (char*);
+char* _Basic_Addition       (char*,char*);
+char* _Basic_Multiplication (char*,long long int);
+char* _Basic_Insert         (char*,char*,long long int);
+char* _Basic_Erase          (char*,long long int,long long int);
+char* _Basic_SubString      (char*,long long int,long long int);
+char* _Basic_Replace        (char*,char*,char*);
+void  Exchange       (char*&,char*&);
+
+long long int Get_Size      (      char*&);
+long long int Get_Size      (const char*&);
+long long int Get_Length    (      char*&);
+long long int Get_Length    (const char*&);
+long long int Get_Position  (      char*&,      char*&,long long int);
+long long int Get_Position  (      char*&,const char*&,long long int);
+long long int Get_Position  (const char*&,      char*&,long long int);
+long long int Get_Position  (const char*&,const char*&,long long int);
+char* Assign          (      char*&);
+char* Assign          (const char*&);
+char* Addition        (      char*&,      char*&);
+char* Addition        (      char*&,const char*&);
+char* Addition        (const char*&,      char*&);
+char* Addition        (const char*&,const char*&);
+char* Multiplication  (      char*&,long long int);
+char* Multiplication  (const char*&,long long int);
+char* Insert          (      char*&,      char*&,long long int);
+char* Insert          (      char*&,const char*&,long long int);
+char* Insert          (const char*&,      char*&,long long int);
+char* Insert          (const char*&,const char*&,long long int);
+char* Erase           (      char*&,long long int,long long int);
+char* Erase           (const char*&,long long int,long long int);
+char* SubString       (      char*&,long long int,long long int);
+char* SubString       (const char*&,long long int,long long int);
+char* Replace         (      char*&,      char*&,      char*&);
+char* Replace         (      char*&,      char*&,const char*&);
+char* Replace         (      char*&,const char*&,      char*&);
+char* Replace         (      char*&,const char*&,const char*&);
+char* Replace         (const char*&,      char*&,      char*&);
+char* Replace         (const char*&,      char*&,const char*&);
+char* Replace         (const char*&,const char*&,      char*&);
+char* Replace         (const char*&,const char*&,const char*&);
+
+// Get Size   (    Include '\0')
+long long int _Basic_Get_Size(char* String)
+  { 
+    long long int StringPosition = 0;
+    while((String+StringPosition)[0]!='\0')
+      StringPosition++;
+    return StringPosition+1;
+  }
+// Get Length (Not Include '\0')
+long long int _Basic_Get_Length(char* String)
+  { 
+    long long int StringPosition = 0;
+    while((String+StringPosition)[0]!='\0')
+      StringPosition++;
+    return StringPosition;
+  }
+// Get First-Position of SubString in MainString
+long long int _Basic_Get_Position(char* MainString,char* SubString,long long int StartPosition)
+  {
+    long long int MainStringPosition=0;
+    long long int BubStringPosition=0;
+    // Read MainString
+    for (MainStringPosition=StartPosition;(MainStringPosition+Get_Size(SubString))<Get_Size(MainString);MainStringPosition++) 
+      {
+        // Read SubString
+        for (BubStringPosition=0;BubStringPosition<(Get_Length(SubString));BubStringPosition++) 
+          {
+            // Different-Information
+            if ((MainString+MainStringPosition+BubStringPosition)[0]!=(SubString+BubStringPosition)[0]) 
+              break;
+            // {Same-Information} and {Read SubString Finish}
+            if (((MainString+MainStringPosition+BubStringPosition)[0]==(SubString+BubStringPosition)[0])&&((BubStringPosition)==(Get_Length(SubString)-1))) 
+              return MainStringPosition;
+          }
+      }
+    // Not-Exist Position
+    return NotExistPosition; 
+  }
+// Set Size   (    Include '\0')
+char* Set_Size(long long int Size)
+  { 
+    char* ResultString=NULL;
+    // Memory-Allocation
+    ResultString = ((char*)(malloc(sizeof(char)*(Size)))); 
+    // Initialization
+    for (int Position=0;Position<(Size);Position++) 
+      (ResultString+Position)[0]='\0';
+    return ResultString;
+  }
+// Set Length (Not Include '\0')
+char* Set_Length(long long int Length)
+  { 
+    char* ResultString=NULL;
+    // Memory-Allocation
+    ResultString = ((char*)(malloc(sizeof(char)*(Length+1)))); 
+    // Initialization
+    for (int Position=0;Position<(Length+1);Position++) 
+      (ResultString+Position)[0]='\0';
+    return ResultString;
+  }
+// Return ResultString from String
+char* _Basic_Assign(char* String)
+  {
+    long long int StringPosition = 0;
+    char* ResultString=NULL;
+    ResultString = ((char*)(malloc(sizeof(char)*(Get_Size(String)))));
+    // Copy {Character of ResultString} from {Character of String}
+    for (StringPosition=0;StringPosition<Get_Size(String);StringPosition++) 
+      (ResultString+StringPosition)[0]=(String+StringPosition)[0];
+    return String;
+  }
+// Return ResultString from {MainString Add SubString}
+char* _Basic_Addition(char* MainString,char* SubString)
+  {
+    long long int MainStringPosition = 0;
+    long long int SubStringPosition = 0;
+    char* ResultString=NULL;
+    ResultString = Set_Size(Get_Length(MainString)+Get_Size(SubString));
+    // Copy {Character of ResultString} from {Character of MainString}
+    for (MainStringPosition=0;MainStringPosition<Get_Length(MainString);MainStringPosition++) 
+      (ResultString+MainStringPosition)[0]=(MainString+MainStringPosition)[0];
+    // Copy {Character of ResultString} from {Character of SubString}
+    for (SubStringPosition=0;SubStringPosition<Get_Length(SubString);SubStringPosition++) 
+      (ResultString+MainStringPosition+SubStringPosition)[0]=(SubString+SubStringPosition)[0];
+    (ResultString+MainStringPosition+SubStringPosition)[0]='\0';
+    return ResultString;
+  }
+// Return ResultString from {String Multiple Number}
+char* _Basic_Multiplication(char* String,long long int Number)
+  {
+    long long int StringPosition = 0;
+    char* ResultString=NULL;
+    ResultString = Set_Size(((Get_Length(String))*Number)+1);
+    // Copy {Character of ResultString} from {Character of SubString}
+    for (StringPosition=0;StringPosition<Get_Length(String);StringPosition++) 
+      // Copy {Number} Times
+      for (long long int number=0;number<Number;number++) 
+        (ResultString+StringPosition+((Get_Length(String))*number))[0]=(String+StringPosition)[0];
+    (ResultString+(((Get_Length(String))*Number)))[0]='\0';
+    return ResultString;
+  }
+// Return ResultString from {MainString Insert SubString Start Position}
+char* _Basic_Insert(char* MainString,char* SubString,long long int Position)
+  {
+    // Position Out-Side Fix
+    if (true) 
+      {
+        if (Position<0) 
+          Position=0;
+        if (Get_Length(MainString)<Position) 
+          Position=Get_Length(MainString);
+      }
+    long long int MainStringPosition = 0;
+    long long int SubStringPosition = 0;
+    char* ResultString=NULL;
+    ResultString = Set_Size(Get_Size(MainString)+Get_Size(SubString)-1);
+    // Write ResultString
+    while ((MainStringPosition+SubStringPosition)<(Get_Size(MainString)+Get_Length(SubString))) 
+      {
+        // Copy {Character of ResultString} from {{Character of MainString} before {Position}}
+        if ((0<=(MainStringPosition+SubStringPosition))&&((MainStringPosition+SubStringPosition)<Position)) 
+          {
+            (ResultString+MainStringPosition)[0]=(MainString+MainStringPosition)[0];
+            MainStringPosition++;
+            continue;
+          }
+        // Copy {Character of ResultString} from {Character of SubString}
+        if ((Position<=(MainStringPosition+SubStringPosition))&&((MainStringPosition+SubStringPosition)<Position+Get_Length(SubString))) 
+          {
+            (ResultString+MainStringPosition+SubStringPosition)[0]=(SubString+SubStringPosition)[0];
+            SubStringPosition++;
+            continue;
+          }
+        // Copy {Character of ResultString} from {{Character of MainString} after {Position}}
+        if ((Position+Get_Length(SubString)<=(MainStringPosition+SubStringPosition))&&((MainStringPosition+SubStringPosition)<(Get_Size(MainString)+Get_Length(SubString)))) 
+          {
+            (ResultString+MainStringPosition+SubStringPosition)[0]=(MainString+MainStringPosition)[0];
+            MainStringPosition++;
+            continue;
+          }
+      }
+    (ResultString+MainStringPosition+SubStringPosition-1)[0]='\0';
+    return ResultString;
+  }
+// Return ResultString from {MainString Erase {{Start in Position},{Number of Character}}}
+char* _Basic_Erase(char* String,long long int Position,long long int Number)
+  {
+    // Position Out-Side Fix
+    if (true) 
+      {
+        if (Position<0) 
+          Position=0;
+        if (Get_Length(String)<Position) 
+          Position=Get_Length(String);
+        if (Number<0) 
+          Number=0;
+        if (Get_Length(String)<Position+Number)
+          Number=Get_Length(String)-Position;
+      }
+    long long int StringPosition = 0;
+    char* ResultString=NULL;
+    ResultString = Set_Size(Get_Size(String)-Number);
+    // Write ResultString
+    for (StringPosition=0;StringPosition<Get_Size(String);StringPosition++) 
+      {
+        // Copy {Character of ResultString} from {{Character of String} before {Position}}
+        if ((0<=StringPosition)&&(StringPosition<Position)) 
+          {
+            (ResultString+StringPosition)[0]=(String+StringPosition)[0];
+            continue;
+          }
+        // Ignore {{Character of String} in {{Position} to {Position + Number}}}
+        if ((Position<=StringPosition)&&(StringPosition<(Position+Number))) 
+          {
+            continue;
+          }
+        // Copy {Character of ResultString} from {{Character of String} after {Position + Number}}
+        if (((Position+Number)<=StringPosition)&&(StringPosition<Get_Size(String))) 
+          {
+            (ResultString+StringPosition-Number)[0]=(String+StringPosition)[0];
+            continue;
+          }
+      }
+    (ResultString+StringPosition-Number)[0]='\0';
+    return ResultString;
+  }
+// Return ResultString from {Part({Start in Position},{Number of Character}) of MainString}
+char* _Basic_SubString(char* String,long long int Position,long long int Number)
+  {
+    // Position Out-Side Fix
+    if (true) 
+      {
+        if (Position<0) 
+          Position=0;
+        if (Get_Length(String)<Position) 
+          Position=Get_Length(String);
+        if (Number<0) 
+          Number=0;
+        if (Get_Length(String)<Position+Number)
+          Number=Get_Length(String)-Position;
+      }
+    long long int StringPosition = 0;
+    char* ResultString=NULL;
+    ResultString = Set_Size(Number);
+    for (StringPosition=0;StringPosition<Get_Size(String);StringPosition++)
+      {
+        // Ignore {{Character of String} before {Position}}
+        if ((0<=StringPosition)&&(StringPosition<Position)) 
+          {
+            continue;
+          }
+        // Copy {Character of ResultString} from {Character of String in {{Position} to {Position + Number}}}
+        if ((Position<=StringPosition)&&(StringPosition<(Position+Number))) 
+          {
+            (ResultString+StringPosition-Position)[0]=(String+StringPosition)[0];
+            continue;
+          }
+        // Ignore {{Character of String} after {Position + Number}}
+        if (((Position+Number)<=StringPosition)&&(StringPosition<Get_Size(String))) 
+          {
+            continue;
+          }
+      }
+    (ResultString+Number)[0]='\0';
+    return ResultString;
+  }
+// Return ResultString from {{MainString} Replace {OldSubString} to {NewSubString}}
+char* _Basic_Replace(char* MainString,char* OldSubString,char* NewSubString)
+  {
+    long long int SubStringNumber=0;
+    long long int MainStringPosition;
+    long long int ResultStringPosition;
+    // Count {Number of {OldSubString in MainString}}
+    if (true) 
+      {
+        // Read MainString
+        for (MainStringPosition=0;MainStringPosition<(Get_Length(MainString)-Get_Length(OldSubString));MainStringPosition++) 
+          {
+            // No other OldSubString Positions
+            if (Get_Position(MainString,OldSubString,MainStringPosition)==(NotExistPosition)) 
+              break;
+            // Focused in OldSubString Positions
+            if ((Get_Position(MainString,OldSubString,MainStringPosition)!=(NotExistPosition))&&(Get_Position(MainString,OldSubString,MainStringPosition)==(MainStringPosition))) 
+              SubStringNumber++;
+          }
+      }
+    char* ResultString=NULL;
+    // Write Data to ResultString
+    if (true)  
+      {
+        long long int length = Get_Size(MainString)+((Get_Length(NewSubString)-Get_Length(OldSubString))*SubStringNumber);
+        ResultString = Set_Size(length);
+        MainStringPosition=0;
+        ResultStringPosition=0;
+        for (MainStringPosition=0;MainStringPosition<Get_Size(MainString);(MainStringPosition++),(ResultStringPosition++))
+          {
+            // If {Not Focused in OldSubString Positions} then {Copy {Character of ResultString} from {Character of OldSubString}}
+            if ((Get_Position(MainString,OldSubString,MainStringPosition)!=(MainStringPosition))) 
+              {
+                (ResultString+ResultStringPosition)[0]=(MainString+MainStringPosition)[0];
+                continue;
+              }
+            // If {Focused in OldSubString Positions} then {Copy {Character of ResultString} from {Character of NewSubString}}
+            if ((Get_Position(MainString,OldSubString,MainStringPosition)==(MainStringPosition))) 
+              {
+                long long int NewSubStringPosition;
+                // Copy {Character of ResultString} from {Character of NewSubString}
+                for (NewSubStringPosition=0;NewSubStringPosition<(Get_Length(NewSubString));NewSubStringPosition++) 
+                  (ResultString+ResultStringPosition+NewSubStringPosition)[0]=(NewSubString+NewSubStringPosition)[0];
+                MainStringPosition+=(Get_Length(OldSubString))-1;
+                ResultStringPosition+=NewSubStringPosition-1;
+              }
+          }
+      }
+    return ResultString;
+  }
+// Exchange String1 and String2
+void _Basic_Exchange(char*& String1,char*& String2)
+  {
+    char* temp;
+    temp = Set_Size(Get_Size(String1));
+    temp = String1;
+    String1 = Set_Size(Get_Size(String2));
+    String1 = String2;
+    String2 = Set_Size(Get_Size(temp));
+    String2 = temp;
+  }
+
+// Get Size   (    Include '\0')
+long long int Get_Size      (      char*& String) {return _Basic_Get_Size(((char*)(String)));}
+// Get Size   (    Include '\0')
+long long int Get_Size      (const char*& String) {return _Basic_Get_Size(((char*)(String)));}
+
+// Get Length (Not Include '\0')
+long long int Get_Length    (      char*& String) {return _Basic_Get_Length(((char*)(String)));}
+// Get Length (Not Include '\0')
+long long int Get_Length    (const char*& String) {return _Basic_Get_Length(((char*)(String)));}
+
+// Get First-Position of SubString in MainString
+long long int Get_Position  (      char*& MainString,      char*& SubString,long long int StartPosition) {return _Basic_Get_Position(((char*)(MainString)),((char*)(SubString)),StartPosition);}
+// Get First-Position of SubString in MainString
+long long int Get_Position  (      char*& MainString,const char*& SubString,long long int StartPosition) {return _Basic_Get_Position(((char*)(MainString)),((char*)(SubString)),StartPosition);}
+// Get First-Position of SubString in MainString
+long long int Get_Position  (const char*& MainString,      char*& SubString,long long int StartPosition) {return _Basic_Get_Position(((char*)(MainString)),((char*)(SubString)),StartPosition);}
+// Get First-Position of SubString in MainString
+long long int Get_Position  (const char*& MainString,const char*& SubString,long long int StartPosition) {return _Basic_Get_Position(((char*)(MainString)),((char*)(SubString)),StartPosition);}
+
+// Return ResultString from String
+char* Assign          (      char*& String) {return _Basic_Assign(((char*)(String)));}
+// Return ResultString from String
+char* Assign          (const char*& String) {return _Basic_Assign(((char*)(String)));}
+
+// Return ResultString from {MainString Add SubString}
+char* Addition        (      char*& MainString,      char*& SubString) {return _Basic_Addition(((char*)(MainString)),((char*)(SubString)));}
+// Return ResultString from {MainString Add SubString}
+char* Addition        (      char*& MainString,const char*& SubString) {return _Basic_Addition(((char*)(MainString)),((char*)(SubString)));}
+// Return ResultString from {MainString Add SubString}
+char* Addition        (const char*& MainString,      char*& SubString) {return _Basic_Addition(((char*)(MainString)),((char*)(SubString)));}
+// Return ResultString from {MainString Add SubString}
+char* Addition        (const char*& MainString,const char*& SubString) {return _Basic_Addition(((char*)(MainString)),((char*)(SubString)));}
+
+// Return ResultString from {String Multiple Number}
+char* Multiplication  (      char*& String,long long int Number) {return _Basic_Multiplication(((char*)(String)),Number);}
+// Return ResultString from {String Multiple Number}
+char* Multiplication  (const char*& String,long long int Number) {return _Basic_Multiplication(((char*)(String)),Number);}
+
+// Return ResultString from {MainString Insert SubString Start Position}
+char* Insert          (      char*& MainString,      char*& SubString,long long int StartPosition) {return _Basic_Insert(((char*)(MainString)),((char*)(SubString)),StartPosition);}
+// Return ResultString from {MainString Insert SubString Start Position}
+char* Insert          (      char*& MainString,const char*& SubString,long long int StartPosition) {return _Basic_Insert(((char*)(MainString)),((char*)(SubString)),StartPosition);}
+// Return ResultString from {MainString Insert SubString Start Position}
+char* Insert          (const char*& MainString,      char*& SubString,long long int StartPosition) {return _Basic_Insert(((char*)(MainString)),((char*)(SubString)),StartPosition);}
+// Return ResultString from {MainString Insert SubString Start Position}
+char* Insert          (const char*& MainString,const char*& SubString,long long int StartPosition) {return _Basic_Insert(((char*)(MainString)),((char*)(SubString)),StartPosition);}
+
+// Return ResultString from {MainString Erase {{Start in Position},{Number of Character}}}
+char* Erase           (      char*& String,long long int StartPosition,long long int Number) {return _Basic_Erase(((char*)(String)),StartPosition,Number);}
+// Return ResultString from {MainString Erase {{Start in Position},{Number of Character}}}
+char* Erase           (const char*& String,long long int StartPosition,long long int Number) {return _Basic_Erase(((char*)(String)),StartPosition,Number);}
+
+// Return ResultString from {Part({Start in Position},{Number of Character}) of MainString}
+char* SubString       (      char*& String,long long int StartPosition,long long int Number) {return _Basic_SubString(((char*)(String)),StartPosition,Number);}
+// Return ResultString from {Part({Start in Position},{Number of Character}) of MainString}
+char* SubString       (const char*& String,long long int StartPosition,long long int Number) {return _Basic_SubString(((char*)(String)),StartPosition,Number);}
+
+// Return ResultString from {{MainString} Replace {OldSubString} to {NewSubString}}
+char* Replace         (      char*& MainString,      char*& OldSubString,      char*& NewSubString) {return _Basic_Replace(((char*)(MainString)),((char*)(OldSubString)),((char*)(NewSubString)));}
+// Return ResultString from {{MainString} Replace {OldSubString} to {NewSubString}}
+char* Replace         (      char*& MainString,      char*& OldSubString,const char*& NewSubString) {return _Basic_Replace(((char*)(MainString)),((char*)(OldSubString)),((char*)(NewSubString)));}
+// Return ResultString from {{MainString} Replace {OldSubString} to {NewSubString}}
+char* Replace         (      char*& MainString,const char*& OldSubString,      char*& NewSubString) {return _Basic_Replace(((char*)(MainString)),((char*)(OldSubString)),((char*)(NewSubString)));}
+// Return ResultString from {{MainString} Replace {OldSubString} to {NewSubString}}
+char* Replace         (      char*& MainString,const char*& OldSubString,const char*& NewSubString) {return _Basic_Replace(((char*)(MainString)),((char*)(OldSubString)),((char*)(NewSubString)));}
+// Return ResultString from {{MainString} Replace {OldSubString} to {NewSubString}}
+char* Replace         (const char*& MainString,      char*& OldSubString,      char*& NewSubString) {return _Basic_Replace(((char*)(MainString)),((char*)(OldSubString)),((char*)(NewSubString)));}
+// Return ResultString from {{MainString} Replace {OldSubString} to {NewSubString}}
+char* Replace         (const char*& MainString,      char*& OldSubString,const char*& NewSubString) {return _Basic_Replace(((char*)(MainString)),((char*)(OldSubString)),((char*)(NewSubString)));}
+// Return ResultString from {{MainString} Replace {OldSubString} to {NewSubString}}
+char* Replace         (const char*& MainString,const char*& OldSubString,      char*& NewSubString) {return _Basic_Replace(((char*)(MainString)),((char*)(OldSubString)),((char*)(NewSubString)));}
+// Return ResultString from {{MainString} Replace {OldSubString} to {NewSubString}}
+char* Replace         (const char*& MainString,const char*& OldSubString,const char*& NewSubString) {return _Basic_Replace(((char*)(MainString)),((char*)(OldSubString)),((char*)(NewSubString)));}
+
+//#include <iostream>
+//int main()
+//  {
+//    char* MainString = ((char*)("TestTest"));
+//    char* OldSubString  = ((char*)("x"));
+//    char* NewSubString  = ((char*)("es"));
+//    //char* Temp = SubString(MainString,2,4);
+//    //std::cout << "Temp.Path   : " << &Temp << "\tTemp.Value   : " << Temp << std::endl;
+//    std::cout << "MainString.Value    : " << MainString   << std::endl;
+//    std::cout << "OldSubString.Value  : " << OldSubString << std::endl;
+//    std::cout << "NewSubString.Value  : " << NewSubString << std::endl;
+//    std::cout << std::endl;
+//    std::cout << "Exchange (OldSubString,NewSubString) : " << std::endl;
+//    std::cout << "     Pre  :       OldSubString.Value : " << OldSubString << std::endl;
+//    std::cout << "     Pre  :       NewSubString.Value : " << NewSubString << std::endl;
+//    Exchange (OldSubString,NewSubString);
+//    std::cout << "     Post :       OldSubString.Value : " << OldSubString << std::endl;
+//    std::cout << "     Post :       NewSubString.Value : " << NewSubString << std::endl;
+//    std::cout << std::endl;
+//    std::cout << "Addition       (MainString,OldSubString)              : " << Addition       (MainString,OldSubString)               << std::endl;
+//    std::cout << "Multiplication (MainString,3)                         : " << Multiplication (MainString,3)                          << std::endl;
+//    std::cout << "Assign         (MainString)                           : " << Assign         (MainString)                            << std::endl;
+//    std::cout << "Insert         (MainString,OldSubString,4)            : " << Insert         (MainString,OldSubString,4)             << std::endl;
+//    std::cout << "SubString      (MainString,4,4)                       : " << SubString      (MainString,4,4)                        << std::endl;
+//    std::cout << "Erase          (MainString,2,2)                       : " << Erase          (MainString,2,2)                        << std::endl;
+//    std::cout << "Get_Position   (MainString,OldSubString,0)            : " << Get_Position         (MainString,OldSubString,0)             << std::endl;
+//    std::cout << "Replace        (MainString,OldSubString,NewSubString) : " << Replace        (MainString,OldSubString,NewSubString)  << std::endl;
+//  }

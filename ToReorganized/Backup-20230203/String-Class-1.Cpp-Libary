@@ -1,0 +1,613 @@
+// Finish Date : 2021 0202
+// Version : 01.00
+
+namespace Basic
+  {
+    #include "String-Basic-1.Cpp-Libary"
+  }
+
+#ifdef NotExistPosition
+  #undef NotExistPosition
+#endif
+#ifndef NotExistPosition
+  #define NotExistPosition -1
+#endif
+
+class String 
+  {
+    private:
+      // Object
+        char* Main;
+    protected:
+    public:
+      // Structor
+        // ConStructor
+          String();
+          String(char*&);
+          String(String&);
+          String(const char*&);
+          String(const String&);
+        // DeStructor
+          ~String();
+      // Method
+        // Self
+          // Get
+            char* Get_Value(void);
+            char* Get_Path(void);
+            long long int Get_Size(void);
+            long long int Get_Length(void);
+            long long int Get_Position(char*&,long long int);
+          // Set
+            // Size
+              void Set_Size(long long int);
+              void Set_Length(long long int);
+            // Value
+              void Assign(char*&);
+              void Assign(String&);
+              void Addition(char*&);
+              void Addition(String&);
+              void Multiplication(long long int);
+              void Insert(char*&,long long int);
+              void Insert(String&,long long int);
+              void Erase(long long int,long long int);
+              void SubString(long long int,long long int);
+              void Replace(char*&,char*&);
+              void Replace(char*&,String&);
+              void Replace(String&,char*&);
+              void Replace(String&,String&);
+        //Friend
+          friend void Exchange(char*&,String&);
+          friend void Exchange(String&,char*&);
+          friend void Exchange(String&,String&);
+  };
+String::String()
+  {
+    this->Main=0;
+  }
+String::String(char*& Target)
+  {
+    this->Main=Basic::Assign(Target);
+  }
+String::String(String& Target)
+  {
+    this->Main=Target.Main;
+  }
+String::String(const char*& Target)
+  {
+    char* Temp = NULL;
+    Temp = (char*)(Target);
+    this->Main=Basic::Assign(Temp);
+  }
+String::String(const String& Target)
+  {
+    this->Main=Target.Main;
+  }
+String::~String()
+  {
+    this->Main=NULL;
+  }
+// Get Value
+char* String::Get_Value(void)
+  {
+    return this->Main;
+  }
+// Get Size   (    Include '\0')
+long long int String::Get_Size(void)
+  {
+    long long int StringPosition = 0;
+    while((String::Main+StringPosition)[0]!='\0')
+      StringPosition++;
+    return StringPosition+1;
+  }
+// Get Length (Not Include '\0')
+long long int String::Get_Length(void)
+  {
+    long long int StringPosition = 0;
+    while((String::Main+StringPosition)[0]!='\0')
+      StringPosition++;
+    return StringPosition;
+  }
+// Get First-Position of SubString in MainString
+long long int String::Get_Position(char*& SubString,long long int StartPosition)
+  {
+    long long int MainStringPosition=0;
+    long long int BubStringPosition=0;
+    // Read MainString
+    for (MainStringPosition=StartPosition;(MainStringPosition+Basic::Get_Size(SubString))<this->Get_Size();MainStringPosition++)
+      {
+        // Read SubString
+        for (BubStringPosition=0;BubStringPosition<(Basic::Get_Length(SubString));BubStringPosition++)
+          {
+            // Different-Information
+            if ((String::Main+MainStringPosition+BubStringPosition)[0]!=(SubString+BubStringPosition)[0])
+              break;
+            // {Same-Information} and {Read SubString Finish}
+            if (((String::Main+MainStringPosition+BubStringPosition)[0]==(SubString+BubStringPosition)[0])&&((BubStringPosition)==(Basic::Get_Length(SubString)-1)))
+              return MainStringPosition;
+          }
+      }
+    return NotExistPosition;
+  }
+// Set Size   (    Include '\0')
+void String::Set_Size(long long int Size)
+  { 
+    char* ResultString=NULL;
+    // Memory-Allocation
+    ResultString = ((char*)(malloc(sizeof(char)*(Size)))); 
+    // Initialization
+    for (int Position=0;Position<(Size);Position++) 
+      (ResultString+Position)[0]='\0';
+    this->Main=ResultString;
+  }
+// Set Length (Not Include '\0')
+void String::Set_Length(long long int Length)
+  { 
+    char* ResultString=NULL;
+    // Memory-Allocation
+    ResultString = ((char*)(malloc(sizeof(char)*(Length+1)))); 
+    // Initialization
+    for (int Position=0;Position<(Length+1);Position++) 
+      (ResultString+Position)[0]='\0';
+    this->Main=ResultString;
+  }
+// Return ResultString from String
+void String::Assign(char*& String)
+  {
+    long long int StringPosition = 0;
+    char* ResultString=NULL;
+    ResultString = ((char*)(malloc(sizeof(char)*(Basic::Get_Size(String)))));
+    // Copy {Character of ResultString} from {Character of String}
+    for (StringPosition=0;StringPosition<Basic::Get_Size(String);StringPosition++) 
+      (ResultString+StringPosition)[0]=(String+StringPosition)[0];
+    this->Main=ResultString;
+  }
+void String::Assign(String& String)
+  {
+    long long int StringPosition = 0;
+    char* ResultString=NULL;
+    ResultString = ((char*)(malloc(sizeof(char)*(String.Get_Size()))));
+    // Copy {Character of ResultString} from {Character of String}
+    for (StringPosition=0;StringPosition<String.Get_Size();StringPosition++) 
+      (ResultString+StringPosition)[0]=(String.Main+StringPosition)[0];
+    this->Main=ResultString;
+  }
+// Return ResultString from {MainString Add SubString}
+void String::Addition(char*& SubString)
+  {
+    long long int MainStringPosition = 0;
+    long long int SubStringPosition = 0;
+    char* ResultString=NULL;
+    ResultString = Basic::Set_Size(this->Get_Length()+Basic::Get_Size(SubString));
+    // Copy {Character of ResultString} from {Character of MainString}
+    for (MainStringPosition=0;MainStringPosition<this->Get_Length();MainStringPosition++) 
+      (ResultString+MainStringPosition)[0]=(this->Main+MainStringPosition)[0];
+    // Copy {Character of ResultString} from {Character of SubString}
+    for (SubStringPosition=0;SubStringPosition<Basic::Get_Length(SubString);SubStringPosition++) 
+      (ResultString+MainStringPosition+SubStringPosition)[0]=(SubString+SubStringPosition)[0];
+    (ResultString+MainStringPosition+SubStringPosition)[0]='\0';
+    this->Main=ResultString;
+  }
+void String::Addition(String& SubString)
+  {
+    long long int MainStringPosition = 0;
+    long long int SubStringPosition = 0;
+    char* ResultString=NULL;
+    ResultString = Basic::Set_Size(this->Get_Length()+SubString.Get_Size());
+    // Copy {Character of ResultString} from {Character of MainString}
+    for (MainStringPosition=0;MainStringPosition<this->Get_Length();MainStringPosition++) 
+      (ResultString+MainStringPosition)[0]=(this->Main+MainStringPosition)[0];
+    // Copy {Character of ResultString} from {Character of SubString}
+    for (SubStringPosition=0;SubStringPosition<SubString.Get_Length();SubStringPosition++) 
+      (ResultString+MainStringPosition+SubStringPosition)[0]=(SubString.Main+SubStringPosition)[0];
+    (ResultString+MainStringPosition+SubStringPosition)[0]='\0';
+    this->Main=ResultString;
+  }
+// Return ResultString from {String Multiple Number}
+void String::Multiplication(long long int Number)
+  {
+    long long int StringPosition = 0;
+    char* ResultString=NULL;
+    ResultString = Basic::Set_Size(((this->Get_Length())*Number)+1);
+    // Copy {Character of ResultString} from {Character of SubString}
+    for (StringPosition=0;StringPosition<this->Get_Length();StringPosition++) 
+      // Copy {Number} Times
+      for (long long int number=0;number<Number;number++) 
+        (ResultString+StringPosition+((this->Get_Length())*number))[0]=(this->Main+StringPosition)[0];
+    (ResultString+(((this->Get_Length())*Number)))[0]='\0';
+    this->Main=ResultString;
+  }
+// Return ResultString from {MainString Insert SubString Start Position}
+void String::Insert(char*& SubString,long long int Position)
+  {
+    // Position Out-Side Fix
+    if (true) 
+      {
+        if (Position<0) 
+          Position=0;
+        if (this->Get_Length()<Position) 
+          Position=this->Get_Length();
+      }
+    long long int MainStringPosition = 0;
+    long long int SubStringPosition = 0;
+    char* ResultString=NULL;
+    ResultString = Basic::Set_Size(this->Get_Size()+Basic::Get_Size(SubString)-1);
+    // Write ResultString
+    while ((MainStringPosition+SubStringPosition)<(this->Get_Size()+Basic::Get_Length(SubString))) 
+      {
+        // Copy {Character of ResultString} from {{Character of MainString} before {Position}}
+        if ((0<=(MainStringPosition+SubStringPosition))&&((MainStringPosition+SubStringPosition)<Position)) 
+          {
+            (ResultString+MainStringPosition)[0]=(this->Main+MainStringPosition)[0];
+            MainStringPosition++;
+            continue;
+          }
+        // Copy {Character of ResultString} from {Character of SubString}
+        if ((Position<=(MainStringPosition+SubStringPosition))&&((MainStringPosition+SubStringPosition)<Position+Basic::Get_Length(SubString))) 
+          {
+            (ResultString+MainStringPosition+SubStringPosition)[0]=(SubString+SubStringPosition)[0];
+            SubStringPosition++;
+            continue;
+          }
+        // Copy {Character of ResultString} from {{Character of MainString} after {Position}}
+        if ((Position+Basic::Get_Length(SubString)<=(MainStringPosition+SubStringPosition))&&((MainStringPosition+SubStringPosition)<(this->Get_Size()+Basic::Get_Length(SubString)))) 
+          {
+            (ResultString+MainStringPosition+SubStringPosition)[0]=(this->Main+MainStringPosition)[0];
+            MainStringPosition++;
+            continue;
+          }
+      }
+    (ResultString+MainStringPosition+SubStringPosition-1)[0]='\0';
+    this->Main=ResultString;
+  }
+void String::Insert(String& SubString,long long int Position)
+  {
+    // Position Out-Side Fix
+    if (true) 
+      {
+        if (Position<0) 
+          Position=0;
+        if (this->Get_Length()<Position) 
+          Position=this->Get_Length();
+      }
+    long long int MainStringPosition = 0;
+    long long int SubStringPosition = 0;
+    char* ResultString=NULL;
+    ResultString = Basic::Set_Size(this->Get_Size()+SubString.Get_Size()-1);
+    // Write ResultString
+    while ((MainStringPosition+SubStringPosition)<(this->Get_Size()+SubString.Get_Length())) 
+      {
+        // Copy {Character of ResultString} from {{Character of MainString} before {Position}}
+        if ((0<=(MainStringPosition+SubStringPosition))&&((MainStringPosition+SubStringPosition)<Position)) 
+          {
+            (ResultString+MainStringPosition)[0]=(this->Main+MainStringPosition)[0];
+            MainStringPosition++;
+            continue;
+          }
+        // Copy {Character of ResultString} from {Character of SubString}
+        if ((Position<=(MainStringPosition+SubStringPosition))&&((MainStringPosition+SubStringPosition)<Position+SubString.Get_Length())) 
+          {
+            (ResultString+MainStringPosition+SubStringPosition)[0]=(SubString.Main+SubStringPosition)[0];
+            SubStringPosition++;
+            continue;
+          }
+        // Copy {Character of ResultString} from {{Character of MainString} after {Position}}
+        if ((Position+SubString.Get_Length()<=(MainStringPosition+SubStringPosition))&&((MainStringPosition+SubStringPosition)<(this->Get_Size()+SubString.Get_Length()))) 
+          {
+            (ResultString+MainStringPosition+SubStringPosition)[0]=(this->Main+MainStringPosition)[0];
+            MainStringPosition++;
+            continue;
+          }
+      }
+    (ResultString+MainStringPosition+SubStringPosition-1)[0]='\0';
+    this->Main=ResultString;
+  }
+// Return ResultString from {MainString Erase {{Start in Position},{Number of Character}}}
+void String::Erase(long long int Position,long long int Number)
+  {
+    // Position Out-Side Fix
+    if (true) 
+      {
+        if (Position<0) 
+          Position=0;
+        if (this->Get_Length()<Position) 
+          Position=this->Get_Length();
+        if (Number<0) 
+          Number=0;
+        if (this->Get_Length()<Position+Number)
+          Number=this->Get_Length()-Position;
+      }
+    long long int StringPosition = 0;
+    char* ResultString=NULL;
+    ResultString = Basic::Set_Size(this->Get_Size()-Number);
+    // Write ResultString
+    for (StringPosition=0;StringPosition<this->Get_Size();StringPosition++) 
+      {
+        // Copy {Character of ResultString} from {{Character of String} before {Position}}
+        if ((0<=StringPosition)&&(StringPosition<Position)) 
+          {
+            (ResultString+StringPosition)[0]=(this->Main+StringPosition)[0];
+            continue;
+          }
+        // Ignore {{Character of String} in {{Position} to {Position + Number}}}
+        if ((Position<=StringPosition)&&(StringPosition<(Position+Number))) 
+          {
+            continue;
+          }
+        // Copy {Character of ResultString} from {{Character of String} after {Position + Number}}
+        if (((Position+Number)<=StringPosition)&&(StringPosition<this->Get_Size())) 
+          {
+            (ResultString+StringPosition-Number)[0]=(this->Main+StringPosition)[0];
+            continue;
+          }
+      }
+    (ResultString+StringPosition-Number)[0]='\0';
+    this->Main=ResultString;
+  }
+// Return ResultString from {Part({Start in Position},{Number of Character}) of MainString}
+void String::SubString(long long int Position,long long int Number)
+  {
+    // Position Out-Side Fix
+    if (true) 
+      {
+        if (Position<0) 
+          Position=0;
+        if (this->Get_Length()<Position) 
+          Position=this->Get_Length();
+        if (Number<0) 
+          Number=0;
+        if (this->Get_Length()<Position+Number)
+          Number=this->Get_Length()-Position;
+      }
+    long long int StringPosition = 0;
+    char* ResultString=NULL;
+    ResultString = Basic::Set_Size(Number);
+    for (StringPosition=0;StringPosition<this->Get_Size();StringPosition++)
+      {
+        // Ignore {{Character of String} before {Position}}
+        if ((0<=StringPosition)&&(StringPosition<Position)) 
+          {
+            continue;
+          }
+        // Copy {Character of ResultString} from {Character of String in {{Position} to {Position + Number}}}
+        if ((Position<=StringPosition)&&(StringPosition<(Position+Number))) 
+          {
+            (ResultString+StringPosition-Position)[0]=(this->Main+StringPosition)[0];
+            continue;
+          }
+        // Ignore {{Character of String} after {Position + Number}}
+        if (((Position+Number)<=StringPosition)&&(StringPosition<this->Get_Size())) 
+          {
+            continue;
+          }
+      }
+    (ResultString+Number)[0]='\0';
+    this->Main=ResultString;
+  }
+// Return ResultString from {{MainString} Replace {OldSubString} to {NewSubString}}
+void String::Replace(char*& OldSubString,char*& NewSubString)
+  {
+    long long int SubStringNumber=0;
+    long long int MainStringPosition;
+    long long int ResultStringPosition;
+    // Count {Number of {OldSubString in MainString}}
+    if (true) 
+      {
+        // Read MainString
+        for (MainStringPosition=0;MainStringPosition<(this->Get_Length()-Basic::Get_Length(OldSubString));MainStringPosition++) 
+          {
+            // No other OldSubString Positions
+            if (this->Get_Position(OldSubString,MainStringPosition)==(NotExistPosition)) 
+              break;
+            // Focused in OldSubString Positions
+            if ((this->Get_Position(OldSubString,MainStringPosition)!=(NotExistPosition))&&(this->Get_Position(OldSubString,MainStringPosition)==(MainStringPosition))) 
+              SubStringNumber++;
+          }
+      }
+    char* ResultString=NULL;
+    // Write Data to ResultString
+    if (true)  
+      {
+        long long int length = this->Get_Size()+((Basic::Get_Length(NewSubString)-Basic::Get_Length(OldSubString))*SubStringNumber);
+        ResultString = Basic::Set_Size(length);
+        MainStringPosition=0;
+        ResultStringPosition=0;
+        for (MainStringPosition=0;MainStringPosition<this->Get_Size();(MainStringPosition++),(ResultStringPosition++))
+          {
+            // If {Not Focused in OldSubString Positions} then {Copy {Character of ResultString} from {Character of OldSubString}}
+            if ((this->Get_Position(OldSubString,MainStringPosition)!=(MainStringPosition))) 
+              {
+                (ResultString+ResultStringPosition)[0]=(this->Main+MainStringPosition)[0];
+                continue;
+              }
+            // If {Focused in OldSubString Positions} then {Copy {Character of ResultString} from {Character of NewSubString}}
+            if ((this->Get_Position(OldSubString,MainStringPosition)==(MainStringPosition))) 
+              {
+                long long int NewSubStringPosition;
+                // Copy {Character of ResultString} from {Character of NewSubString}
+                for (NewSubStringPosition=0;NewSubStringPosition<(Basic::Get_Length(NewSubString));NewSubStringPosition++) 
+                  (ResultString+ResultStringPosition+NewSubStringPosition)[0]=(NewSubString+NewSubStringPosition)[0];
+                MainStringPosition+=(Basic::Get_Length(OldSubString))-1;
+                ResultStringPosition+=NewSubStringPosition-1;
+              }
+          }
+      }
+    this->Main=ResultString;
+  }
+void String::Replace(char*& OldSubString,String& NewSubString)
+  {
+    long long int SubStringNumber=0;
+    long long int MainStringPosition;
+    long long int ResultStringPosition;
+    // Count {Number of {OldSubString in MainString}}
+    if (true) 
+      {
+        // Read MainString
+        for (MainStringPosition=0;MainStringPosition<(this->Get_Length()-Basic::Get_Length(OldSubString));MainStringPosition++) 
+          {
+            // No other OldSubString Positions
+            if (this->Get_Position(OldSubString,MainStringPosition)==(NotExistPosition)) 
+              break;
+            // Focused in OldSubString Positions
+            if ((this->Get_Position(OldSubString,MainStringPosition)!=(NotExistPosition))&&(this->Get_Position(OldSubString,MainStringPosition)==(MainStringPosition))) 
+              SubStringNumber++;
+          }
+      }
+    char* ResultString=NULL;
+    // Write Data to ResultString
+    if (true)  
+      {
+        long long int length = this->Get_Size()+((NewSubString.Get_Length()-Basic::Get_Length(OldSubString))*SubStringNumber);
+        ResultString = Basic::Set_Size(length);
+        MainStringPosition=0;
+        ResultStringPosition=0;
+        for (MainStringPosition=0;MainStringPosition<this->Get_Size();(MainStringPosition++),(ResultStringPosition++))
+          {
+            // If {Not Focused in OldSubString Positions} then {Copy {Character of ResultString} from {Character of OldSubString}}
+            if ((this->Get_Position(OldSubString,MainStringPosition)!=(MainStringPosition))) 
+              {
+                (ResultString+ResultStringPosition)[0]=(this->Main+MainStringPosition)[0];
+                continue;
+              }
+            // If {Focused in OldSubString Positions} then {Copy {Character of ResultString} from {Character of NewSubString}}
+            if ((this->Get_Position(OldSubString,MainStringPosition)==(MainStringPosition))) 
+              {
+                long long int NewSubStringPosition;
+                // Copy {Character of ResultString} from {Character of NewSubString}
+                for (NewSubStringPosition=0;NewSubStringPosition<(NewSubString.Get_Length());NewSubStringPosition++) 
+                  (ResultString+ResultStringPosition+NewSubStringPosition)[0]=(NewSubString.Main+NewSubStringPosition)[0];
+                MainStringPosition+=(Basic::Get_Length(OldSubString))-1;
+                ResultStringPosition+=NewSubStringPosition-1;
+              }
+          }
+      }
+    this->Main=ResultString;
+  }
+void String::Replace(String& OldSubString,char*& NewSubString)
+  {
+    long long int SubStringNumber=0;
+    long long int MainStringPosition;
+    long long int ResultStringPosition;
+    // Count {Number of {OldSubString in MainString}}
+    if (true) 
+      {
+        // Read MainString
+        for (MainStringPosition=0;MainStringPosition<(this->Get_Length()-OldSubString.Get_Length());MainStringPosition++) 
+          {
+            // No other OldSubString Positions
+            if (this->Get_Position(OldSubString.Main,MainStringPosition)==(NotExistPosition)) 
+              break;
+            // Focused in OldSubString Positions
+            if ((this->Get_Position(OldSubString.Main,MainStringPosition)!=(NotExistPosition))&&(this->Get_Position(OldSubString.Main,MainStringPosition)==(MainStringPosition))) 
+              SubStringNumber++;
+          }
+      }
+    char* ResultString=NULL;
+    // Write Data to ResultString
+    if (true)  
+      {
+        long long int length = this->Get_Size()+((Basic::Get_Length(NewSubString)-OldSubString.Get_Length())*SubStringNumber);
+        ResultString = Basic::Set_Size(length);
+        MainStringPosition=0;
+        ResultStringPosition=0;
+        for (MainStringPosition=0;MainStringPosition<this->Get_Size();(MainStringPosition++),(ResultStringPosition++))
+          {
+            // If {Not Focused in OldSubString Positions} then {Copy {Character of ResultString} from {Character of OldSubString}}
+            if ((this->Get_Position(OldSubString.Main,MainStringPosition)!=(MainStringPosition))) 
+              {
+                (ResultString+ResultStringPosition)[0]=(this->Main+MainStringPosition)[0];
+                continue;
+              }
+            // If {Focused in OldSubString Positions} then {Copy {Character of ResultString} from {Character of NewSubString}}
+            if ((this->Get_Position(OldSubString.Main,MainStringPosition)==(MainStringPosition))) 
+              {
+                long long int NewSubStringPosition;
+                // Copy {Character of ResultString} from {Character of NewSubString}
+                for (NewSubStringPosition=0;NewSubStringPosition<(Basic::Get_Length(NewSubString));NewSubStringPosition++) 
+                  (ResultString+ResultStringPosition+NewSubStringPosition)[0]=(NewSubString+NewSubStringPosition)[0];
+                MainStringPosition+=(OldSubString.Get_Length())-1;
+                ResultStringPosition+=NewSubStringPosition-1;
+              }
+          }
+      }
+    this->Main=ResultString;
+  }
+void String::Replace(String& OldSubString,String& NewSubString)
+  {
+    long long int SubStringNumber=0;
+    long long int MainStringPosition;
+    long long int ResultStringPosition;
+    // Count {Number of {OldSubString in MainString}}
+    if (true) 
+      {
+        // Read MainString
+        for (MainStringPosition=0;MainStringPosition<(this->Get_Length()-OldSubString.Get_Length());MainStringPosition++) 
+          {
+            // No other OldSubString Positions
+            if (this->Get_Position(OldSubString.Main,MainStringPosition)==(NotExistPosition)) 
+              break;
+            // Focused in OldSubString Positions
+            if ((this->Get_Position(OldSubString.Main,MainStringPosition)!=(NotExistPosition))&&(this->Get_Position(OldSubString.Main,MainStringPosition)==(MainStringPosition))) 
+              SubStringNumber++;
+          }
+      }
+    char* ResultString=NULL;
+    // Write Data to ResultString
+    if (true)  
+      {
+        long long int length = this->Get_Size()+((NewSubString.Get_Length()-OldSubString.Get_Length())*SubStringNumber);
+        ResultString = Basic::Set_Size(length);
+        MainStringPosition=0;
+        ResultStringPosition=0;
+        for (MainStringPosition=0;MainStringPosition<this->Get_Size();(MainStringPosition++),(ResultStringPosition++))
+          {
+            // If {Not Focused in OldSubString Positions} then {Copy {Character of ResultString} from {Character of OldSubString}}
+            if ((this->Get_Position(OldSubString.Main,MainStringPosition)!=(MainStringPosition))) 
+              {
+                (ResultString+ResultStringPosition)[0]=(this->Main+MainStringPosition)[0];
+                continue;
+              }
+            // If {Focused in OldSubString Positions} then {Copy {Character of ResultString} from {Character of NewSubString}}
+            if ((this->Get_Position(OldSubString.Main,MainStringPosition)==(MainStringPosition))) 
+              {
+                long long int NewSubStringPosition;
+                // Copy {Character of ResultString} from {Character of NewSubString}
+                for (NewSubStringPosition=0;NewSubStringPosition<(NewSubString.Get_Length());NewSubStringPosition++) 
+                  (ResultString+ResultStringPosition+NewSubStringPosition)[0]=(NewSubString.Main+NewSubStringPosition)[0];
+                MainStringPosition+=(OldSubString.Get_Length())-1;
+                ResultStringPosition+=NewSubStringPosition-1;
+              }
+          }
+      }
+    this->Main=ResultString;
+  }
+// Exchange String1 and String2
+void Exchange(char*& String1,String& String2)
+  {
+    char* temp;
+    temp = Basic::Set_Size(Basic::Get_Size(String1));
+    temp = String1;
+    String1 = Basic::Set_Size(String2.Get_Size());
+    String1 = String2.Main;
+    String2.Main = Basic::Set_Size(Basic::Get_Size(temp));
+    String2.Main = temp;
+  }
+void Exchange(String& String1,char*& String2)
+  {
+    char* temp;
+    temp = Basic::Set_Size(String1.Get_Size());
+    temp = String1.Main;
+    String1.Main = Basic::Set_Size(Basic::Get_Size(String2));
+    String1.Main = String2;
+    String2 = Basic::Set_Size(Basic::Get_Size(temp));
+    String2 = temp;
+  }
+void Exchange(String& String1,String& String2)
+  {
+    String temp;
+    temp.Set_Size(String1.Get_Size());
+    temp.Main = String1.Main;
+    String1.Set_Size(String2.Get_Size());
+    String1.Main = String2;
+    String2.Set_Size(temp.Get_Size());
+    String2.Main = temp;
+  }

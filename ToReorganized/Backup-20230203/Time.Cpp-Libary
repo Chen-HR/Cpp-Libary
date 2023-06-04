@@ -1,0 +1,11 @@
+#include<ctime>
+namespace Time
+  {
+    void Delay(double delay) // Unit = ms
+      {
+        
+        const double TimeUnit = double(CLOCKS_PER_SEC)/1000.0; // 1(ms), \n(1000(ms)=1(s))
+        double StartTime = double(std::clock())/TimeUnit;
+        while (((double(std::clock())/TimeUnit)-StartTime)<delay);
+      }
+  }
