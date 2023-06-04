@@ -1,3 +1,5 @@
 .vscode/
 .gitignore
+*tester/
+*test/
 VisualStudioCode-WorkSpace-Config-Cloner.ps1
