@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <string>
-#include "Log.hpp"
+// #include "Log.hpp"
 
 #ifndef Shell_hpp
   #include "Shell.hpp"
@@ -36,7 +36,7 @@
       // Log::log("format", command);
       if (command.find(Shell::format_script) != std::string::npos)
         command.replace(command.find(Shell::format_script), std::strlen(Shell::format_script), script);
-      Log::log("format", command);
+      // Log::log("format", command);
       return std::system(command.c_str());
     }
   /**

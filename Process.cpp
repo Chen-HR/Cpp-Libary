@@ -1,5 +1,4 @@
 // #include <bitset>
-#include "Log.hpp"
 #ifndef Process_hpp
   #include "Process.hpp"
 #endif //Process_hpp
@@ -9,7 +8,5 @@
     {
       Type c = a;
       a = b, b = c;
-    }
-  
-  
+    }  
 #endif //Process_cpp
