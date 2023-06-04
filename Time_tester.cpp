@@ -12,7 +12,7 @@ int main ()
     try
       {
         Time::DateTime current;
-        Log::log("current.timezone_offset", current.timezone_offset);
+        // Log::log("current.timezone_offset", current.timezone_offset);
       }
     catch(const std::exception& exception)
       {

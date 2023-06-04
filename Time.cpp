@@ -1,4 +1,4 @@
-#include "Log.hpp"
+// #include "Log.hpp"
 
 #ifndef Time_hpp
   #include "Time.hpp"

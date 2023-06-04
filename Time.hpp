@@ -4,7 +4,7 @@
 #include <ctime>
 #include <chrono>
 #include <exception>
-#include "Log.hpp"
+// #include "Log.hpp"
 
 #ifndef Time_hpp
   #define Time_hpp
