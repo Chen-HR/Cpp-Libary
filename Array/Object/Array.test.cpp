@@ -23,12 +23,12 @@ int main(int argc, const char** argv)
 
     Array<char, size_t> string_number(17); string_number[16] = '\0';
     for (size_t i=0; i<10; i++) string_number[   i] = '0'+i;
-    for (size_t i=0; i< 6; i++) string_number[10+i] = 'a'+i;
+    for (size_t i=0; i< 6; i++) string_number[10+i] = 'A'+i;
     std::cout<<"string_number: "<<string_number.to_string()<<std::endl;
     std::cout<<"string_number: "<<string_number.get_ItemAddress(0)<<std::endl;
 
     Array<char, size_t> string_alpha(27); string_alpha[26] = '\0';
-    for (size_t i=0; i<26; i++) string_alpha[i] = 'a'+i;
+    for (size_t i=0; i<26; i++) string_alpha[i] = 'A'+i;
     std::cout<<"string_alpha: "<<string_alpha.to_string()<<std::endl;
     std::cout<<"string_alpha: "<<string_alpha.get_ItemAddress(0)<<std::endl;
 
@@ -41,18 +41,18 @@ int main(int argc, const char** argv)
     std::cout<<std::endl;
 
     std::cout<<"string_number: "<<string_number.to_string()<<std::endl;
-    Array<char, size_t> string_number_subArray_0_16(string_number.subArray(0, 16)); // string_number_subArray_0_16.set_ItemContent(0, '\0', true);
-    std::cout<<"string_number.subArray(0, 16): "<<string_number_subArray_0_16.get_ItemAddress(0)<<": "<<string_number_subArray_0_16.to_string()<<std::endl;
     Array<char, size_t> string_number_subArray_4__8(string_number.subArray(4,  8)); // string_number_subArray_4__8.set_ItemContent(0, '\0', true);
     std::cout<<"string_number.subArray(4,  8): "<<string_number_subArray_4__8.get_ItemAddress(0)<<": "<<string_number_subArray_4__8.to_string()<<std::endl;
+    Array<char, size_t> string_number_subArray_0_16(string_number.subArray(0, 16)); // string_number_subArray_0_16.set_ItemContent(0, '\0', true);
+    std::cout<<"string_number.subArray(0, 16): "<<string_number_subArray_0_16.get_ItemAddress(0)<<": "<<string_number_subArray_0_16.to_string()<<std::endl;
 
-    std::cout<<std::endl;
+    // std::cout<<std::endl;
 
-    std::cout<<"string_number: "<<string_number.to_string()<<std::endl;
-    Array<char, size_t> string_number_erase_0_16(string_number.erase(0, 16));
-    Array<char, size_t> string_number_erase_4__8(string_number.erase(4,  8));
-    std::cout<<"string_number.erase(0, 16): "<<string_number_erase_0_16.to_string()<<std::endl;
-    std::cout<<"string_number.erase(4,  8): "<<string_number_erase_4__8.to_string()<<std::endl;
+    // std::cout<<"string_number: "<<string_number.to_string()<<std::endl;
+    // Array<char, size_t> string_number_erase_0_16(string_number.erase(0, 16));
+    // std::cout<<"string_number.erase(0, 16): "<<string_number_erase_0_16.to_string()<<std::endl;
+    // Array<char, size_t> string_number_erase_4__8(string_number.erase(4,  8));
+    // std::cout<<"string_number.erase(4,  8): "<<string_number_erase_4__8.to_string()<<std::endl;
 
     // std::cout<<std::endl;
 

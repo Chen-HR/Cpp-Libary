@@ -8,8 +8,8 @@
   #include <sstream> // std::ostringstream
   #include <string> // std::string
   #include <cstring> // std::memcpy
-  #define std_memcpy(dest, src) std::memcpy(dest, src, sizeof(src))
-  #define std_memcpy_length(dest, src, length) std::memcpy((dest), (src), sizeof(decltype((src)))*length)
+  #define std_memcpy(dest, src) std::memcpy((dest), (src), sizeof(decltype(src)))
+  #define std_memcpy_length(dest, src, length) std::memcpy((dest), (src), sizeof(decltype((src)))*(length))
   template <typename Type, typename Size> Array<Type, Size>::Array() 
     :_start{nullptr}, _length{0} 
     {}
@@ -38,13 +38,13 @@
           // Handle memory allocation failure
         }
     }
-  template <typename Type, typename Size> Array<Type, Size>::Array(Array<Type, Size>& other, bool createCopy) 
+  template <typename Type, typename Size> Array<Type, Size>::Array(Array<Type, Size>& other) 
     {
-      this->set_Array(other, createCopy);
+      this->set_Array(other);
     }
-  template <typename Type, typename Size> Array<Type, Size>::Array(Type* _start, Size length, bool createCopy) 
+  template <typename Type, typename Size> Array<Type, Size>::Array(Type* _start, Size length) 
     {
-      this->set_Array(_start, length, createCopy);
+      this->set_Array(_start, length);
     }
   template <typename Type, typename Size> Array<Type, Size>::~Array() 
     {
@@ -59,36 +59,18 @@
       //     // std::clog << "try: fail: "  << exception.what() << std::endl;
       //   }
     }
-  template <typename Type, typename Size> inline Array<Type, Size>& Array<Type, Size>::set_Array(Array<Type, Size>& other, bool createCopy)
+  template <typename Type, typename Size> inline Array<Type, Size>& Array<Type, Size>::set_Array(Array<Type, Size>& other)
     {
-      // std::clog<<"this->_length: "<<this->_length<<std::endl;
       this->_length = other._length;
-      // std::clog<<"this->_length: "<<this->_length<<std::endl;
-      // std::clog<<"this->_start: "<<this->_start<<std::endl;
-      if (createCopy)
-        {
-          this->_start = new Type[other._length];
-          // this->_start = std::make_shared<Type[]>(other._length);
-          std_memcpy_length(this->_start, other._start, other._length);
-        }
-      else this->_start = other._start;
-      // std::clog<<"this->_start: "<<this->_start<<std::endl;
+      this->_start = new Type[other._length];
+      std_memcpy_length(this->_start, other._start, other._length);
       return *this;
     }
-  template <typename Type, typename Size> inline Array<Type, Size>& Array<Type, Size>::set_Array(Type* start, Size length, bool createCopy)
+  template <typename Type, typename Size> inline Array<Type, Size>& Array<Type, Size>::set_Array(Type* start, Size length)
     {
-      // std::clog<<"this->_length: "<<this->_length<<std::endl;
       this->_length = length;
-      // std::clog<<"this->_length: "<<this->_length<<std::endl;
-      // std::clog<<"this->_start: "<<this->_start<<std::endl;
-      if (createCopy)
-        {
-          this->_start = new Type[length];
-          // this->_start = std::make_shared<Type[]>(length);
-          std_memcpy_length(this->_start, start, length);
-        }
-      else this->_start = _start;
-      // std::clog<<"this->_start: "<<this->_start<<std::endl;
+      this->_start = new Type[length];
+      std_memcpy_length(this->_start, start, length);
       return *this;
     }
   template <typename Type, typename Size> inline Size Array<Type, Size>::get_Length()
@@ -97,7 +79,6 @@
     {
       Array<Type, Size> tmp(length);
       std_memcpy_length(tmp._start, this->_start, ((this->_length<tmp._length)?(this->_length):(tmp._length)));
-      // this->set_Array(tmp);
       try { delete[] this->_start; }
       catch(const std::exception& exception) {}
       this->set_Array(tmp);
@@ -123,24 +104,21 @@
       if (index < 0 || index >= this->_length) throw std::out_of_range("Index out of bounds");
       return (this->_start+index);
     }
-  template <typename Type, typename Size> Array<Type, Size> Array<Type, Size>::subArray(Size index, Size length, bool createCopy)
+  template <typename Type, typename Size> Array<Type, Size> Array<Type, Size>::subArray(Size index, Size length)
     {
       if (index < 0 || index+length >= this->_length) throw std::out_of_range("Index out of bounds");
       Array<Type, Size> tmp(length);
-      if (createCopy) 
-        std_memcpy_length(tmp._start, this->_start+index, length);
-        // for (Size i=0; i<length; i++) *(tmp._start+i) = *(this->_start+index+i);
-      else tmp._start = this->_start+index;
+      std_memcpy_length(tmp._start, this->_start+index, length);
       return tmp;
     }
-  template <typename Type, typename Size> Array<Type, Size> Array<Type, Size>::erase(Size index, Size length)
-    {
-      if (index < 0 || index+length >= this->_length) throw std::out_of_range("Index out of bounds");
-      Array<Type, Size> tmp(this->_length-length);
-      std_memcpy_length(tmp._start, this->_start, index);
-      std_memcpy_length(tmp._start+index, this->_start+index+length, this->_length-index-length);
-      return tmp;
-    }
+  // template <typename Type, typename Size> Array<Type, Size> Array<Type, Size>::erase(Size index, Size length)
+  //   {
+  //     if (index < 0 || index+length >= this->_length) throw std::out_of_range("Index out of bounds");
+  //     Array<Type, Size> tmp(this->_length-length);
+  //     std_memcpy_length(tmp._start, this->_start, index);
+  //     std_memcpy_length(tmp._start+index, this->_start+index+length, this->_length-index-length);
+  //     return tmp;
+  //   }
   // template <typename Type, typename Size> Array<Type, Size> Array<Type, Size>::inserted(Size index, Type data)
   //   {
   //     const Size length = 1;
@@ -186,6 +164,14 @@
         }
       catch(const std::exception& exception) { std::cerr << "Exception occurred during stream insertion: " << exception.what() << std::endl; }
       return buffer.str();
+      // std::string buffer("[");
+      // for (size_t i=0; i<this->_length; i++) 
+      //   {
+      //     if (i!=0) buffer+=", ";
+      //     buffer+=std::to_string((Type)*(this->_start+i));
+      //   }
+      // buffer+="]";
+      // return buffer;
     }
   // template <typename Type, typename Size> inline const char* Array<Type, Size>::to_cstring () const 
   //   {
