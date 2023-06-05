@@ -30,7 +30,7 @@
       this->_length = length;
       try 
         {
-          this->_start = new Type[length]; // ERROR
+          this->_start = new Type[length]; // Runtime_Error
         } 
       catch (const std::bad_alloc& error) 
         {
@@ -176,7 +176,7 @@
           for (size_t i=0; i<this->_length; i++) 
             {
               // std::clog<<buffer.str()<<std::endl;
-              if (i!=0) buffer<<", "; // ERROR
+              if (i!=0) buffer<<", "; // Runtime_Error
               // if (i!=0) std::clog<<", ";
               buffer<<*(this->_start+i);
               // std::clog<<*(this->_start+i);
