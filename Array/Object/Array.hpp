@@ -38,7 +38,7 @@
          * @brief Construct a new Array object (Configure a group of spaces, initialized as an array)
          * @param other referenced object
          */
-        Array(Array<Type, Size>& other);
+        Array(const Array<Type, Size>& other);
         /** @brief Destroy the Array object */
         ~Array();
         /**
@@ -53,7 +53,7 @@
          * @param other referenced object
          * @return Array<Type, Size>& *this
          */
-        inline Array<Type, Size>& set_Array(Array<Type, Size>& other);
+        inline Array<Type, Size>& set_Array(const Array<Type, Size>& other);
         /**
          * @brief Get the Length object
          * @return const Size Length

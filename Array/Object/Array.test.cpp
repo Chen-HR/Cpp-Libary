@@ -1,3 +1,4 @@
+// malloc(): corrupted top size
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -40,11 +41,11 @@ int main(int argc, const char** argv)
 
     std::cout<<std::endl;
 
-    std::cout<<"string_number: "<<string_number.to_string()<<std::endl;
-    Array<char, size_t> string_number_subArray_4__8(string_number.subArray(4,  8)); // string_number_subArray_4__8.set_ItemContent(0, '\0', true);
-    std::cout<<"string_number.subArray(4,  8): "<<string_number_subArray_4__8.get_ItemAddress(0)<<": "<<string_number_subArray_4__8.to_string()<<std::endl;
-    Array<char, size_t> string_number_subArray_0_16(string_number.subArray(0, 16)); // string_number_subArray_0_16.set_ItemContent(0, '\0', true);
-    std::cout<<"string_number.subArray(0, 16): "<<string_number_subArray_0_16.get_ItemAddress(0)<<": "<<string_number_subArray_0_16.to_string()<<std::endl;
+    std::cout<<"string_number: "<<(void*)(string_number.get_ItemAddress(0))<<" ~ "<<(void*)(string_number.get_ItemAddress(0, true))<<": "<<string_number.to_string()<<std::endl;
+    Array<char, size_t> string_number_subArray_4__8(string_number.subArray(4,  9)); string_number_subArray_4__8.set_ItemContent(0, '\0', true);
+    std::cout<<"string_number.subArray(4,  9): "<<(void*)(string_number_subArray_4__8.get_ItemAddress(0))<<" ~ "<<(void*)(string_number_subArray_4__8.get_ItemAddress(0, true))<<": "<<string_number_subArray_4__8.to_string()<<std::endl;
+    Array<char, size_t> string_number_subArray_0_16(string_number.subArray(0, 17)); string_number_subArray_0_16.set_ItemContent(0, '\0', true);
+    std::cout<<"string_number.subArray(0, 17): "<<(void*)(string_number_subArray_0_16.get_ItemAddress(0))<<" ~ "<<(void*)(string_number_subArray_0_16.get_ItemAddress(0, true))<<": "<<string_number_subArray_0_16.to_string()<<std::endl;
 
     // std::cout<<std::endl;
 

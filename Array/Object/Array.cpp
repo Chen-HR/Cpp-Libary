@@ -14,6 +14,7 @@
     :_start{nullptr}, _length{0} 
     {}
   template <typename Type, typename Size> Array<Type, Size>::Array(Size length) 
+    :_start{nullptr}, _length{0} 
     // :_start{new Type[length]}, _length{length} 
     // : _start{std::make_shared<Type[]>(length)}, _length{length}
     {
@@ -34,17 +35,19 @@
         } 
       catch (const std::bad_alloc& error) 
         {
-          std::cerr << error.what() << std::endl;
-          // Handle memory allocation failure
+          std::cerr << "Memory allocation failed: " << error.what() << std::endl;
+          throw;
         }
     }
-  template <typename Type, typename Size> Array<Type, Size>::Array(Array<Type, Size>& other) 
-    {
-      this->set_Array(other);
-    }
   template <typename Type, typename Size> Array<Type, Size>::Array(Type* _start, Size length) 
+    :_start{nullptr}, _length{0} 
     {
       this->set_Array(_start, length);
+    }
+  template <typename Type, typename Size> Array<Type, Size>::Array(const Array<Type, Size>& other) 
+    :_start{nullptr}, _length{0} 
+    {
+      this->set_Array(other);
     }
   template <typename Type, typename Size> Array<Type, Size>::~Array() 
     {
@@ -59,18 +62,27 @@
       //     // std::clog << "try: fail: "  << exception.what() << std::endl;
       //   }
     }
-  template <typename Type, typename Size> inline Array<Type, Size>& Array<Type, Size>::set_Array(Array<Type, Size>& other)
-    {
-      this->_length = other._length;
-      this->_start = new Type[other._length];
-      std_memcpy_length(this->_start, other._start, other._length);
-      return *this;
-    }
   template <typename Type, typename Size> inline Array<Type, Size>& Array<Type, Size>::set_Array(Type* start, Size length)
     {
-      this->_length = length;
-      this->_start = new Type[length];
-      std_memcpy_length(this->_start, start, length);
+      Array<Type, Size> tmp(length);
+      std_memcpy_length(tmp._start, start, length);
+      std::swap(this->_start, tmp._start);
+      std::swap(this->_length, tmp._length);
+      return *this;
+    }
+  template <typename Type, typename Size> inline Array<Type, Size>& Array<Type, Size>::set_Array(const Array<Type, Size>& other)
+    {
+      // this->_length = other._length;
+      // try { if (this->_start!=nullptr) delete[] this->_start; }
+      // catch(const std::exception& exception) {}
+      // this->_start = new Type[other._length];
+      // std_memcpy_length(this->_start, other._start, other._length);
+      // if (this != &other)
+      //   {
+          Array<Type, Size> tmp(other._start, other._length);
+          std::swap(this->_start, tmp._start);
+          std::swap(this->_length, tmp._length);
+      //   }
       return *this;
     }
   template <typename Type, typename Size> inline Size Array<Type, Size>::get_Length()
@@ -79,9 +91,11 @@
     {
       Array<Type, Size> tmp(length);
       std_memcpy_length(tmp._start, this->_start, ((this->_length<tmp._length)?(this->_length):(tmp._length)));
-      try { delete[] this->_start; }
-      catch(const std::exception& exception) {}
-      this->set_Array(tmp);
+      // try { delete[] this->_start; }
+      // catch(const std::exception& exception) {}
+      // this->set_Array(tmp);
+      std::swap(this->_start, tmp._start);
+      std::swap(this->_length, tmp._length);
       return *this;
     }
   template <typename Type, typename Size> inline Size Array<Type, Size>::Length()
@@ -91,22 +105,22 @@
   template <typename Type, typename Size> inline Array<Type, Size>& Array<Type, Size>::set_ItemContent(Size index, Type data, bool reverse)
     {
       if (index < 0 || index >= this->_length) throw std::out_of_range("Index out of bounds");
-      *(this->_start+index) = data;
+      ((!reverse)?*(this->_start+index):*(this->_start+this->_length-1-index)) = data;
       return *(this);
     }
   template <typename Type, typename Size> inline Type Array<Type, Size>::get_ItemContent (Size index, bool reverse)
     {
       if (index < 0 || index >= this->_length) throw std::out_of_range("Index out of bounds");
-      return *(this->_start+index);
+      return ((!reverse)?*(this->_start+index):*(this->_start+this->_length-1-index));
     }
   template <typename Type, typename Size> inline Type* Array<Type, Size>::get_ItemAddress (Size index, bool reverse)
     {
       if (index < 0 || index >= this->_length) throw std::out_of_range("Index out of bounds");
-      return (this->_start+index);
+      return ((!reverse)?(this->_start+index):(this->_start+this->_length-1-index));
     }
   template <typename Type, typename Size> Array<Type, Size> Array<Type, Size>::subArray(Size index, Size length)
     {
-      if (index < 0 || index+length >= this->_length) throw std::out_of_range("Index out of bounds");
+      if (index < 0 || index+length > this->_length) throw std::out_of_range("Index out of bounds");
       Array<Type, Size> tmp(length);
       std_memcpy_length(tmp._start, this->_start+index, length);
       return tmp;
@@ -146,21 +160,16 @@
   //   }
   template <typename Type, typename Size> inline std::string Array<Type, Size>::to_string () const 
     {
-      std::ostringstream buffer; buffer.clear();
+      std::ostringstream buffer; buffer.str("");
       try
         {
           buffer<<"[";
-          // std::clog<<"[";
           for (size_t i=0; i<this->_length; i++) 
             {
-              // std::clog<<buffer.str()<<std::endl;
               if (i!=0) buffer<<", "; // Runtime_Error
-              // if (i!=0) std::clog<<", ";
               buffer<<*(this->_start+i);
-              // std::clog<<*(this->_start+i);
             }
           buffer<<"]";
-          // std::clog<<"]";
         }
       catch(const std::exception& exception) { std::cerr << "Exception occurred during stream insertion: " << exception.what() << std::endl; }
       return buffer.str();
